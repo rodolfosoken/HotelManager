@@ -37,7 +37,9 @@ public class QuartoDAO {
 
         this.view.addCadastraBotaoListener(new cadastraListener());
         this.view.addTabelaBotaoListener(new tabelaQuarto());
-        this.view.addTabelaBotaoListener(new actionAltera());
+        this.view.addAlteraBotaoListener(new actionAltera());
+        this.view.addConcluidoBotaoListener(new actionConcluido());
+        this.view.addExcluiBotaoListener(new actionExclui());
         this.view.atualiza();
     }
 
@@ -52,6 +54,24 @@ public class QuartoDAO {
         }
 
     }
+    
+    class actionExclui implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            int linhaSelecionada = -1;
+            linhaSelecionada = view.getjTable1().getSelectedRow();
+            if (linhaSelecionada >= 0) {
+                int numQuarto = (int) view.getjTable1().getValueAt(linhaSelecionada, 0);
+                exclui(numQuarto);
+                view.atualiza();
+            } else {
+                JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+            }
+            
+        }
+        
+    }
 
     class actionAltera implements ActionListener {
 
@@ -61,7 +81,9 @@ public class QuartoDAO {
             linhaSelecionada = view.getjTable1().getSelectedRow();
             if (linhaSelecionada >= 0) {
                 int numQuarto = (int) view.getjTable1().getValueAt(linhaSelecionada, 0);
-                
+                model = busca(numQuarto);
+                view.getNumero().setText(String.valueOf(model.getNumQuarto()));
+                view.getCategoria().setText(model.getCategoria());
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
@@ -80,6 +102,56 @@ public class QuartoDAO {
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 
+    }
+    
+    class actionConcluido implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            model.setCategoria(view.getCategoria().getText());
+            model.setNumQuarto(Integer.parseInt(view.getNumero().getText()));
+            atualiza();
+            view.atualiza();
+        }
+        
+    }
+    
+    
+    public void exclui(int id){
+        EntityManager em = getEntityManager();
+        try{
+        em.getTransaction().begin();
+        Quarto quarto = em.getReference(Quarto.class, id);
+        em.remove(quarto);
+        em.getTransaction().commit();
+        }finally{
+            em.close();
+        }
+    }
+    
+    
+    public void atualiza(){
+        EntityManager em = getEntityManager();
+        
+        try{
+            em.getTransaction().begin();
+            em.merge(model);
+            em.getTransaction().commit();
+        }finally{
+            em.close();
+        }
+        
+    }
+    
+    
+    public Quarto busca(int id){
+        EntityManager em = getEntityManager();
+        try{
+            Query q = em.createNativeQuery("select * from quarto q where q.num_quarto = '"+ id +"'",Quarto.class);
+        return (Quarto)q.getSingleResult();
+        }finally{
+            em.close();
+        }
     }
 
     public List<Quarto> getQuartos() {
