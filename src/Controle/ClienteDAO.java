@@ -8,8 +8,10 @@ package Controle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import modelo.Cliente;
 import visao.ViewCadCliente;
@@ -32,29 +34,151 @@ public class ClienteDAO {
         this.emf = emf;
         this.model = cliente;
         this.view = view;
-        
-        this.view.addCadastraBotaoLitener(new cadastraListener());
+
+        this.view.addCadastraBotaoListener(new cadastraListener());
+        this.view.addTabelaBotaoListener(new tabelaQuarto());
+        this.view.addAlteraBotaoListener(new actionAltera());
+        this.view.addConcluidoBotaoListener(new actionConcluido());
+        this.view.addExcluiBotaoListener(new actionExclui());
+        this.view.atualiza();
     }
-    
-    
+
     class cadastraListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            
+
             model.setCep(Integer.parseInt(view.getCep().getText()));
             model.setComplementoEnd(view.getComplemento().getText());
             model.setNome(view.getNome().getText());
             model.setCpf(view.getCpf().getText());
             model.setEmail(view.getEmail().getText());
             model.setRua(view.getRua().getText());
-           
-           cadastraCliente();
+
+            cadastraCliente();
+            view.atualiza();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
-        
+
     }
-    
+
+    class tabelaQuarto implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            view.getModelo().setNumRows(0);
+            for (Cliente c : getQuartos()) {
+                view.getModelo().addRow(new Object[]
+                {c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(), c.getEmail() }
+                );
+            }
+        }
+
+    }
+
+    class actionExclui implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            int linhaSelecionada = -1;
+            linhaSelecionada = view.getTabela().getSelectedRow();
+            if (linhaSelecionada >= 0) {
+                String cpf = (String) view.getTabela().getValueAt(linhaSelecionada, 0);
+                exclui(cpf);
+                view.atualiza();
+            } else {
+                JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+            }
+
+        }
+
+    }
+
+    class actionAltera implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            int linhaSelecionada = -1;
+            linhaSelecionada = view.getTabela().getSelectedRow();
+            if (linhaSelecionada >= 0) {
+                String cpf = (String) view.getTabela().getValueAt(linhaSelecionada, 0);
+                model = busca(cpf);
+                view.getNome().setText(model.getNome());
+                view.getCpf().setText(String.valueOf(model.getCpf()));
+                view.getRua().setText(model.getRua());
+                view.getCep().setText(String.valueOf(model.getCep()));
+                view.getComplemento().setText(model.getComplementoEnd());
+                view.getEmail().setText(model.getEmail());
+                
+                
+                } else {
+                JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+            }
+
+        }
+
+    }
+
+    class actionConcluido implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            model.setCep(Integer.parseInt(view.getCep().getText()));
+            model.setComplementoEnd(view.getComplemento().getText());
+            model.setNome(view.getNome().getText());
+            model.setCpf(view.getCpf().getText());
+            model.setEmail(view.getEmail().getText());
+            model.setRua(view.getRua().getText());
+            atualiza();
+            view.atualiza();
+        }
+
+    }
+
+    public void exclui(String id) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Cliente quarto = em.getReference(Cliente.class, id);
+            em.remove(quarto);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void atualiza() {
+        EntityManager em = getEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.merge(model);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public Cliente busca(String id) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNativeQuery("select * from cliente c where c.CPF = '" + id + "'", Cliente.class);
+            return (Cliente) q.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Cliente> getQuartos() {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNativeQuery("select * from cliente", Cliente.class);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 
     public void cadastraCliente() {
         if (model.getAcompanhanteCollection() == null) {
@@ -68,14 +192,9 @@ public class ClienteDAO {
         try {
             em.persist(model);
             em.getTransaction().commit();
-        }finally {
+        } finally {
             em.close();
         }
     }
-    
-    public void removeCliente(){
-        
-    }
-    
 
 }

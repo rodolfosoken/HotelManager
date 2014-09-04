@@ -6,8 +6,6 @@
 package visao;
 
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /**

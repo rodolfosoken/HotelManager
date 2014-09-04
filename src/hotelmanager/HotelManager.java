@@ -26,13 +26,13 @@ public class HotelManager {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("HotelManagerPU");
 
-//        Cliente cliente = new Cliente();
-//        ViewCadCliente view = new ViewCadCliente();
-//        ClienteDAO control = new ClienteDAO(emf, cliente, view);
-//        
-        Quarto model = new Quarto();
-        ViewCadQuarto view = new ViewCadQuarto();
-        QuartoDAO control = new QuartoDAO(emf, model, view);
+        Cliente cliente = new Cliente();
+        ViewCadCliente view = new ViewCadCliente();
+        ClienteDAO control = new ClienteDAO(emf, cliente, view);
+        
+//        Quarto model = new Quarto();
+//        ViewCadQuarto view = new ViewCadQuarto();
+//        QuartoDAO control = new QuartoDAO(emf, model, view);
 
     }
 
