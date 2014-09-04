@@ -2,16 +2,16 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="HotelManagerPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>modelo.Acompanhante</class>
-    <class>modelo.Pagamento</class>
-    <class>modelo.Quarto</class>
-    <class>modelo.Servico</class>
-    <class>modelo.Telefone</class>
-    <class>modelo.Produto</class>
-    <class>modelo.Cliente</class>
     <class>modelo.Atendente</class>
+    <class>modelo.Servico</class>
     <class>modelo.Reserva</class>
+    <class>modelo.Telefone</class>
+    <class>modelo.Cliente</class>
     <class>modelo.Camareiro</class>
+    <class>modelo.Produto</class>
+    <class>modelo.Pagamento</class>
+    <class>modelo.Acompanhante</class>
+    <class>modelo.Quarto</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotel_manager?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
