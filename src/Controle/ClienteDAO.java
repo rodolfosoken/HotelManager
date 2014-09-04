@@ -196,5 +196,21 @@ public class ClienteDAO {
             em.close();
         }
     }
+    
+        public boolean existe(String cpf) {
+        boolean existe = false;
+        EntityManager em = getEntityManager();
+        try {
+            if (em.find(Cliente.class, cpf) != null) {
+                existe = true;
+            }
+        } finally {
+            em.close();
+        }
+
+        return existe;
+
+    }
+    
 
 }

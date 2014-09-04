@@ -76,7 +76,7 @@ public class JanelaPrincipalDAO {
     public void reservaWindow() {
     Reserva model = new Reserva();
     ViewReserva view = new ViewReserva();
-    ReservaDAO control = new ReservaDAO(emf, model, view);
+    ReservaDAO control = new ReservaDAO(emf, model, view, this);
     }
 
     public void clienteWindow() {
