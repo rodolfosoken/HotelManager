@@ -5,6 +5,7 @@
  */
 package visao;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
@@ -25,13 +26,12 @@ public class ViewReserva extends javax.swing.JFrame {
     /**
      * Creates new form ViewReserva
      */
-    
-    private DefaultTableModel modelo = new DefaultTableModel(){
-    @Override
-    public boolean isCellEditable(int row, int column) {
-        return false;
-    }
-};
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
     private List<String> atendentes = new ArrayList<>();
 
     public List<String> getAtendentes() {
@@ -41,14 +41,14 @@ public class ViewReserva extends javax.swing.JFrame {
     public void setAtendentes(List<String> atendentes) {
         this.atendentes = atendentes;
     }
-    
-    public void atendentelist(){
+
+    public void atendentelist() {
         for (String a : atendentes) {
             atendente.addItem(a);
         }
     }
-    
-     private List<String> quartos = new ArrayList<>();
+
+    private List<String> quartos = new ArrayList<>();
 
     public List<String> getQuartos() {
         return quartos;
@@ -57,23 +57,20 @@ public class ViewReserva extends javax.swing.JFrame {
     public void setQuartos(List<String> quartos) {
         this.quartos = quartos;
     }
-    
-    public void quartosList(){
+
+    public void quartosList() {
         for (String r : quartos) {
             quarto.addItem(r);
         }
     }
-    
-    
-    
+
     public ViewReserva() {
         initComponents();
         this.setVisible(true);
         criaJTable();
     }
-    
-    
-        private void criaJTable() {
+
+    private void criaJTable() {
         getTabela().setModel(getModelo());
         getModelo().addColumn("Nome");
         getModelo().addColumn("Quarto");
@@ -85,7 +82,21 @@ public class ViewReserva extends javax.swing.JFrame {
         getTabela().getColumnModel().getColumn(2).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
- 
+
+    }
+
+    public void limpaCampos() {
+        for (int i = 0; i < getContentPane().getComponentCount(); i++) {
+            //varre todos os componentes  
+
+            Component c = getContentPane().getComponent(i);
+
+            if (c instanceof JTextField) {
+                //apaga os valores  
+                JTextField field = (JTextField) c;
+                field.setText("");
+            }
+        }
     }
 
     public JTextField getCelular() {
@@ -127,15 +138,16 @@ public class ViewReserva extends javax.swing.JFrame {
     public JButton getPesquisar() {
         return pesquisar;
     }
-        public void addQuarto2Listener(FocusListener listener){
+
+    public void addQuarto2Listener(FocusListener listener) {
         quarto.addFocusListener(listener);
     }
-    
-    public void addQuartoListener(MouseListener listener){
+
+    public void addQuartoListener(MouseListener listener) {
         quarto.addMouseListener(listener);
     }
-    
-    public void addPesquisaListener(ActionListener listener){
+
+    public void addPesquisaListener(ActionListener listener) {
         pesquisar.addActionListener(listener);
     }
 
@@ -146,7 +158,6 @@ public class ViewReserva extends javax.swing.JFrame {
     public void addCadastraBotaoListener(ActionListener listener) {
         getCadastra().addActionListener(listener);
     }
-
 
     public void addAlteraBotaoListener(ActionListener listener) {
         getAltera().addActionListener(listener);
@@ -159,8 +170,8 @@ public class ViewReserva extends javax.swing.JFrame {
     public void addExcluiBotaoListener(ActionListener listener) {
         getExclui().addActionListener(listener);
     }
-    
-        /**
+
+    /**
      * @return the altera
      */
     public javax.swing.JButton getAltera() {
@@ -720,10 +731,6 @@ public class ViewReserva extends javax.swing.JFrame {
         this.endereco = jTextField3;
     }
 
-
-
-
-
     /**
      * @return the jTextField6
      */
@@ -850,8 +857,6 @@ public class ViewReserva extends javax.swing.JFrame {
         this.codigo = codigo;
     }
 
-
-
     /**
      * @return the nome
      */
@@ -889,13 +894,10 @@ public class ViewReserva extends javax.swing.JFrame {
     public void setDtSaida(JFormattedTextField dtSaida) {
         this.dtSaida = dtSaida;
     }
-    
 
     public void setQuarto(JComboBox quarto) {
         this.quarto = quarto;
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1641,6 +1643,5 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JTextField telefone;
     private javax.swing.JTextField valorQuarto;
     // End of variables declaration//GEN-END:variables
-
 
 }

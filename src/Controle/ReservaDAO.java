@@ -281,33 +281,38 @@ public class ReservaDAO {
             if (cliente != null) {
                 model.setCpfAtend(atendenteDAO.buscaPorNome(view.getAtendente().getSelectedItem().toString()));
                 model.setCpfCliente(cliente);
-                
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                java.sql.Date data = null;
-                try {
-                    data = new java.sql.Date(format.parse(view.getDtEntrada().getText()).getTime());
-                } catch (ParseException ex) {
-                    Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                model.setDtIn(data);
-                try {
-                    data = new java.sql.Date(format.parse(view.getDtSaida().getText()).getTime());
-                } catch (ParseException ex) {
-                    Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                model.setDtOut(data);
-                if (quarto != null) {
-                    model.setNumQuarto(quarto);
-                    model.setValor(500.00);
+                if ((!view.getDtEntrada().getText().isEmpty()) && (!view.getDtSaida().getText().isEmpty())) {
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    java.sql.Date data = null;
+                    try {
+                        data = new java.sql.Date(format.parse(view.getDtEntrada().getText()).getTime());
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    model.setDtIn(data);
+                    try {
+                        data = new java.sql.Date(format.parse(view.getDtSaida().getText()).getTime());
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    model.setDtOut(data);
+                    if (quarto != null) {
+                        model.setNumQuarto(quarto);
+                        model.setValor(500.00);
 
-                    cadastraReserva();
-                    atualizaTabela();
-                    main.atualizaTabela();
-                    JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
-                    
+                        cadastraReserva();
+                        atualizaTabela();
+                        main.atualizaTabela();
+                        JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
+                        view.dispose();
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Selecione um Quarto.");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Selecione um Quarto.");
+                    JOptionPane.showMessageDialog(null, "Selecione uma Data.");
                 }
+
             } else {
                 JOptionPane.showMessageDialog(null, "Selecione um Cliente");
             }
