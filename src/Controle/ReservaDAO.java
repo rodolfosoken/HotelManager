@@ -5,6 +5,7 @@
  */
 package Controle;
 
+import Servicos.ControlePesquisaCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -12,10 +13,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import modelo.Atendente;
 import modelo.Cliente;
 import modelo.Reserva;
+import visao.PesquisaCliente;
 import visao.ViewReserva;
 
 /**
@@ -80,16 +83,33 @@ public class ReservaDAO {
                     cliente = clienteDAO.busca(view.getCodigo().getText());
                     view.getNome().setText(cliente.getNome());
                     view.getEndereco().setText(cliente.getRua());
-                    
-                }else{
+
+                } else {
                     //cliente não encontrado
                     JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+                    caixaDePesquisa();
+
                 }
-            }else{
+            } else {
                 //caixa de pesquisa
+                caixaDePesquisa();
             }
         }
 
+    }
+
+    private void caixaDePesquisa() {
+        PesquisaCliente pesquisa = new PesquisaCliente();
+        ControlePesquisaCliente controle = new ControlePesquisaCliente(emf, pesquisa);
+        JDialog dia = new JDialog(pesquisa);
+        dia.setModal(true);     //cria JDialog modal para travar foco
+        dia.setContentPane(pesquisa.getContentPane());
+        dia.setBounds(pesquisa.getBounds());
+        dia.setVisible(true);
+        cliente = clienteDAO.busca(pesquisa.getSelecionado());
+        view.getNome().setText(cliente.getNome());
+        view.getEndereco().setText(cliente.getRua());
+        view.getCodigo().setText(cliente.getCpf());
     }
 
     class AcaoNovo implements ActionListener {

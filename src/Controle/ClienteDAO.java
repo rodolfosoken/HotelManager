@@ -67,7 +67,7 @@ public class ClienteDAO {
 
     public void atualizaTabela() {
         view.getModelo().setNumRows(0);
-        for (Cliente c : getQuartos()) {
+        for (Cliente c : getClientes()) {
             view.getModelo().addRow(new Object[]{c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(), c.getEmail()}
             );
         }
@@ -167,10 +167,19 @@ public class ClienteDAO {
         }
     }
 
-    public List<Cliente> getQuartos() {
+    public List<Cliente> getClientes() {
         EntityManager em = getEntityManager();
         try {
             Query q = em.createNativeQuery("select * from cliente", Cliente.class);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+        public List<Cliente> getClientesPorNome(String nome) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNativeQuery("select * from cliente c where c.nome LIKE '%"+nome+"%'", Cliente.class);
             return q.getResultList();
         } finally {
             em.close();
