@@ -5,7 +5,9 @@
  */
 package visao;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,7 +19,12 @@ public class ViewCadCliente extends javax.swing.JFrame {
     /**
      * Creates new form viewCliente
      */
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel(){
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};
 
     public ViewCadCliente() {
         initComponents();
@@ -25,12 +32,22 @@ public class ViewCadCliente extends javax.swing.JFrame {
         criaJTable();
     }
 
-    public void addCadastraBotaoListener(ActionListener listener) {
-        cadastra.addActionListener(listener);
+    public void limpaCampos() {
+        for (int i = 0; i < getContentPane().getComponentCount(); i++) {
+                    //varre todos os componentes  
+
+            Component c = getContentPane().getComponent(i);
+
+            if (c instanceof JTextField) {
+                //apaga os valores  
+                JTextField field = (JTextField) c;
+                field.setText("");
+            }
+        }
     }
 
-    public void addTabelaBotaoListener(ActionListener listener) {
-        atuaTab.addActionListener(listener);
+    public void addCadastraBotaoListener(ActionListener listener) {
+        cadastra.addActionListener(listener);
     }
 
     public void addAlteraBotaoListener(ActionListener listener) {
@@ -60,10 +77,6 @@ public class ViewCadCliente extends javax.swing.JFrame {
         getTabela().getColumnModel().getColumn(4).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(5).setPreferredWidth(80);
 
-    }
-
-    public void atualiza() {
-        atuaTab.doClick();
     }
 
     /**
@@ -96,12 +109,11 @@ public class ViewCadCliente extends javax.swing.JFrame {
         altera = new javax.swing.JButton();
         concluido = new javax.swing.JButton();
         sair = new javax.swing.JButton();
-        atuaTab = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setText("Cadastro de Cliente");
@@ -136,8 +148,6 @@ public class ViewCadCliente extends javax.swing.JFrame {
                 sairActionPerformed(evt);
             }
         });
-
-        atuaTab.setText("Atualiza Tabela");
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -204,9 +214,7 @@ public class ViewCadCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(altera, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(concluido)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(atuaTab)))
+                                .addComponent(concluido)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -251,8 +259,7 @@ public class ViewCadCliente extends javax.swing.JFrame {
                             .addComponent(acompanhante)
                             .addComponent(exclui)
                             .addComponent(altera)
-                            .addComponent(concluido)
-                            .addComponent(atuaTab))
+                            .addComponent(concluido))
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,7 +272,7 @@ public class ViewCadCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
-       dispose();
+        dispose();
     }//GEN-LAST:event_sairActionPerformed
 
     /**
@@ -306,7 +313,6 @@ public class ViewCadCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acompanhante;
     private javax.swing.JButton altera;
-    private javax.swing.JButton atuaTab;
     private javax.swing.JButton cadastra;
     private javax.swing.JTextField cep;
     private javax.swing.JTextField complemento;

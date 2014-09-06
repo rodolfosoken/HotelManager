@@ -36,11 +36,14 @@ public class ClienteDAO {
         this.view = view;
 
         this.view.addCadastraBotaoListener(new cadastraListener());
-        this.view.addTabelaBotaoListener(new tabelaQuarto());
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
-        this.view.atualiza();
+       atualizaTabela();
+    }
+
+    public ClienteDAO(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
     class cadastraListener implements ActionListener {
@@ -56,24 +59,18 @@ public class ClienteDAO {
             model.setRua(view.getRua().getText());
 
             cadastraCliente();
-            view.atualiza();
+            atualizaTabela();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 
     }
 
-    class tabelaQuarto implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            view.getModelo().setNumRows(0);
-            for (Cliente c : getQuartos()) {
-                view.getModelo().addRow(new Object[]
-                {c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(), c.getEmail() }
-                );
-            }
+    public void atualizaTabela() {
+        view.getModelo().setNumRows(0);
+        for (Cliente c : getQuartos()) {
+            view.getModelo().addRow(new Object[]{c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(), c.getEmail()}
+            );
         }
-
     }
 
     class actionExclui implements ActionListener {
@@ -85,7 +82,7 @@ public class ClienteDAO {
             if (linhaSelecionada >= 0) {
                 String cpf = (String) view.getTabela().getValueAt(linhaSelecionada, 0);
                 exclui(cpf);
-                view.atualiza();
+                atualizaTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
@@ -109,9 +106,8 @@ public class ClienteDAO {
                 view.getCep().setText(String.valueOf(model.getCep()));
                 view.getComplemento().setText(model.getComplementoEnd());
                 view.getEmail().setText(model.getEmail());
-                
-                
-                } else {
+
+            } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
 
@@ -130,7 +126,8 @@ public class ClienteDAO {
             model.setEmail(view.getEmail().getText());
             model.setRua(view.getRua().getText());
             atualiza();
-            view.atualiza();
+           atualizaTabela();
+           view.limpaCampos();
         }
 
     }
@@ -196,8 +193,8 @@ public class ClienteDAO {
             em.close();
         }
     }
-    
-        public boolean existe(String cpf) {
+
+    public boolean existe(String cpf) {
         boolean existe = false;
         EntityManager em = getEntityManager();
         try {
@@ -211,6 +208,5 @@ public class ClienteDAO {
         return existe;
 
     }
-    
 
 }

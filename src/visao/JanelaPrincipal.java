@@ -15,7 +15,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JanelaPrincipal extends javax.swing.JFrame {
 
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel(){
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};
 
     /**
      * Creates new form JanelaPrincipal
@@ -42,16 +47,19 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         btReserva.addActionListener(listener);
     }
 
-    private void criaJTable() {
+        private void criaJTable() {
         getTabela().setModel(getModelo());
-        getModelo().addColumn("CPF");
         getModelo().addColumn("Nome");
         getModelo().addColumn("Quarto");
+        getModelo().addColumn("Data Entrada");
+        getModelo().addColumn("Data Saída");
         getModelo().addColumn("Valor");
         getTabela().getColumnModel().getColumn(0).setPreferredWidth(80);
         getTabela().getColumnModel().getColumn(1).setPreferredWidth(200);
         getTabela().getColumnModel().getColumn(2).setPreferredWidth(120);
-        getTabela().getColumnModel().getColumn(3).setPreferredWidth(80);
+        getTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
+        getTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
+ 
     }
 
     /**
@@ -130,31 +138,33 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btCliente)
-                                .addGap(18, 18, 18)
-                                .addComponent(btAtendente)
-                                .addGap(18, 18, 18)
-                                .addComponent(btProduto)
-                                .addGap(18, 18, 18)
-                                .addComponent(btServiço)
-                                .addGap(18, 18, 18)
-                                .addComponent(btQuarto)))
-                        .addGap(0, 137, Short.MAX_VALUE)))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sair, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane1)
+                .addGap(6, 6, 6))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btAtendente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btQuarto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btProduto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btServiço))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel1)))
+                .addContainerGap(203, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btAtendente, btCliente, btProduto, btQuarto, btReserva, btServiço});
@@ -165,13 +175,13 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(57, 57, 57)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btCliente)
                     .addComponent(btAtendente)
+                    .addComponent(btQuarto)
                     .addComponent(btProduto)
-                    .addComponent(btServiço)
-                    .addComponent(btQuarto))
+                    .addComponent(btServiço))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

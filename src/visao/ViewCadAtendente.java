@@ -5,7 +5,9 @@
  */
 package visao;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,20 +19,35 @@ public class ViewCadAtendente extends javax.swing.JFrame {
     /**
      * Creates new form viewAtendente
      */
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel(){
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};
 
     public ViewCadAtendente() {
         initComponents();
         this.setVisible(true);
         criaJTable();
     }
+    
+        public void limpaCampos() {
+        for (int i = 0; i < getContentPane().getComponentCount(); i++) {
+                    //varre todos os componentes  
+
+            Component c = getContentPane().getComponent(i);
+
+            if (c instanceof JTextField) {
+                //apaga os valores  
+                JTextField field = (JTextField) c;
+                field.setText("");
+            }
+        }
+    }
 
     public void addCadastraBotaoListener(ActionListener listener) {
         getCadastra().addActionListener(listener);
-    }
-
-    public void addTabelaBotaoListener(ActionListener listener) {
-        atuaTab.addActionListener(listener);
     }
 
     public void addAlteraBotaoListener(ActionListener listener) {
@@ -63,9 +80,7 @@ public class ViewCadAtendente extends javax.swing.JFrame {
         getTabela().getColumnModel().getColumn(6).setPreferredWidth(80);
     }
 
-    public void atualiza() {
-        atuaTab.doClick();
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +113,6 @@ public class ViewCadAtendente extends javax.swing.JFrame {
         exclui = new javax.swing.JButton();
         altera = new javax.swing.JButton();
         concluido = new javax.swing.JButton();
-        atuaTab = new javax.swing.JButton();
         sair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -145,13 +159,6 @@ public class ViewCadAtendente extends javax.swing.JFrame {
         concluido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 concluidoActionPerformed(evt);
-            }
-        });
-
-        atuaTab.setText("Atualiza Tabela");
-        atuaTab.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atuaTabActionPerformed(evt);
             }
         });
 
@@ -207,8 +214,7 @@ public class ViewCadAtendente extends javax.swing.JFrame {
                                 .addComponent(altera)
                                 .addGap(18, 18, 18)
                                 .addComponent(concluido)
-                                .addGap(204, 204, 204)
-                                .addComponent(atuaTab))
+                                .addGap(315, 315, 315))
                             .addComponent(sair, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -251,16 +257,11 @@ public class ViewCadAtendente extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addComponent(cadastra, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(13, 13, 13)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(exclui)
-                            .addComponent(altera)
-                            .addComponent(concluido)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(atuaTab)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exclui)
+                    .addComponent(altera)
+                    .addComponent(concluido))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sair, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -272,10 +273,6 @@ public class ViewCadAtendente extends javax.swing.JFrame {
     private void concluidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_concluidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_concluidoActionPerformed
-
-    private void atuaTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atuaTabActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_atuaTabActionPerformed
 
     private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
         dispose();
@@ -318,7 +315,6 @@ public class ViewCadAtendente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton altera;
-    private javax.swing.JButton atuaTab;
     private javax.swing.JToggleButton cadastra;
     private javax.swing.JTextField cep;
     private javax.swing.JTextField complemento;
@@ -453,20 +449,6 @@ public class ViewCadAtendente extends javax.swing.JFrame {
      */
     public void setCpf(javax.swing.JTextField cpf) {
         this.cpf = cpf;
-    }
-
-    /**
-     * @return the jButton4
-     */
-    public javax.swing.JButton getjButton4() {
-        return atuaTab;
-    }
-
-    /**
-     * @param jButton4 the jButton4 to set
-     */
-    public void setjButton4(javax.swing.JButton jButton4) {
-        this.atuaTab = jButton4;
     }
 
     /**

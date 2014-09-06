@@ -17,7 +17,12 @@ public class ViewCadQuarto extends javax.swing.JFrame {
     /**
      * Creates new form ViewCadQuarto
      */
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel(){
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};
 
     public ViewCadQuarto() {
         initComponents();
@@ -29,9 +34,6 @@ public class ViewCadQuarto extends javax.swing.JFrame {
         cadastra.addActionListener(listener);
     }
 
-    public void addTabelaBotaoListener(ActionListener listener) {
-        atuaTab.addActionListener(listener);
-    }
 
     public void addAlteraBotaoListener(ActionListener listener) {
         altera.addActionListener(listener);
@@ -53,9 +55,6 @@ public class ViewCadQuarto extends javax.swing.JFrame {
         tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
     }
 
-    public void atualiza() {
-        atuaTab.doClick();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,7 +73,6 @@ public class ViewCadQuarto extends javax.swing.JFrame {
         cadastra = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
-        atuaTab = new javax.swing.JButton();
         exclui = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -121,8 +119,6 @@ public class ViewCadQuarto extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(tabela);
-
-        atuaTab.setText("Tabela ");
 
         exclui.setText("Exclui");
 
@@ -192,8 +188,7 @@ public class ViewCadQuarto extends javax.swing.JFrame {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(atuaTab)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36))))
         );
@@ -218,13 +213,8 @@ public class ViewCadQuarto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(atuaTab)
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))))
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -283,7 +273,6 @@ public class ViewCadQuarto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton altera;
-    private javax.swing.JButton atuaTab;
     private javax.swing.JButton cadastra;
     private javax.swing.JTextField categoria;
     private javax.swing.JButton concluido;

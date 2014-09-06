@@ -6,6 +6,8 @@
 package visao;
 
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,15 +20,48 @@ public class ViewReserva extends javax.swing.JFrame {
      * Creates new form ViewReserva
      */
     
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel(){
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};
     
     public ViewReserva() {
         initComponents();
         this.setVisible(true);
+        criaJTable();
+    }
+    
+    
+        private void criaJTable() {
+        getTabela().setModel(getModelo());
+        getModelo().addColumn("Nome");
+        getModelo().addColumn("Quarto");
+        getModelo().addColumn("Data Entrada");
+        getModelo().addColumn("Data Saída");
+        getModelo().addColumn("Valor");
+        getTabela().getColumnModel().getColumn(0).setPreferredWidth(80);
+        getTabela().getColumnModel().getColumn(1).setPreferredWidth(200);
+        getTabela().getColumnModel().getColumn(2).setPreferredWidth(120);
+        getTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
+        getTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
+ 
     }
 
-    public void atualiza() {
-        atuaTab.doClick();
+    public JTextField getEndereco() {
+        return endereco;
+    }
+
+    public JButton getPesquisar() {
+        return pesquisar;
+    }
+
+
+
+    
+    public void addPesquisaListener(ActionListener listener){
+        pesquisar.addActionListener(listener);
     }
 
     public void addNovoListener(ActionListener listener) {
@@ -37,9 +72,6 @@ public class ViewReserva extends javax.swing.JFrame {
         getCadastra().addActionListener(listener);
     }
 
-    public void addTabelaBotaoListener(ActionListener listener) {
-        atuaTab.addActionListener(listener);
-    }
 
     public void addAlteraBotaoListener(ActionListener listener) {
         getAltera().addActionListener(listener);
@@ -65,16 +97,16 @@ public class ViewReserva extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        codigo = new javax.swing.JTextField();
+        pesquisar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        nome = new javax.swing.JTextField();
+        endereco = new javax.swing.JTextField();
+        quarto = new javax.swing.JTextField();
+        atendente = new javax.swing.JTextField();
         novo = new javax.swing.JButton();
         cadastra = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -111,9 +143,8 @@ public class ViewReserva extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jLabel14 = new javax.swing.JLabel();
-        atuaTab = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
         jLabel1.setText("Reservas");
@@ -122,7 +153,13 @@ public class ViewReserva extends javax.swing.JFrame {
 
         jLabel2.setText("Cliente");
 
-        jButton1.setText("Pesquisar");
+        codigo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                codigoFocusLost(evt);
+            }
+        });
+
+        pesquisar.setText("Pesquisar");
 
         jLabel3.setText("Nome");
 
@@ -157,16 +194,15 @@ public class ViewReserva extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(nome)
+                            .addComponent(endereco, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                            .addComponent(atendente, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                            .addComponent(quarto))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(pesquisar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(novo, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -180,26 +216,26 @@ public class ViewReserva extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1)
+                        .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pesquisar)
                         .addComponent(novo))
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quarto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(atendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(cadastra, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -467,8 +503,6 @@ public class ViewReserva extends javax.swing.JFrame {
                         .addGap(14, 14, 14))))
         );
 
-        atuaTab.setText("Atualiza Tabela");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -488,14 +522,9 @@ public class ViewReserva extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(exclui, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(concluido, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(atuaTab)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(concluido, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 418, Short.MAX_VALUE))))
         );
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {altera, concluido, exclui});
-
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -505,8 +534,7 @@ public class ViewReserva extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(altera)
                     .addComponent(exclui)
-                    .addComponent(concluido)
-                    .addComponent(atuaTab))
+                    .addComponent(concluido))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -567,6 +595,10 @@ public class ViewReserva extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
+    private void codigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_codigoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codigoFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -604,11 +636,12 @@ public class ViewReserva extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton altera;
-    private javax.swing.JButton atuaTab;
+    private javax.swing.JTextField atendente;
     private javax.swing.JButton cadastra;
+    private javax.swing.JTextField codigo;
     private javax.swing.JButton concluido;
+    private javax.swing.JTextField endereco;
     private javax.swing.JButton exclui;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -640,17 +673,15 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField nome;
     private javax.swing.JButton novo;
+    private javax.swing.JButton pesquisar;
+    private javax.swing.JTextField quarto;
     private javax.swing.JButton sair;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
@@ -715,14 +746,14 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jButton1
      */
     public javax.swing.JButton getjButton1() {
-        return jButton1;
+        return pesquisar;
     }
 
     /**
      * @param jButton1 the jButton1 to set
      */
     public void setjButton1(javax.swing.JButton jButton1) {
-        this.jButton1 = jButton1;
+        this.pesquisar = jButton1;
     }
 
     /**
@@ -1163,14 +1194,14 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jTextField1
      */
     public javax.swing.JTextField getjTextField1() {
-        return jTextField1;
+        return getCodigo();
     }
 
     /**
      * @param jTextField1 the jTextField1 to set
      */
     public void setjTextField1(javax.swing.JTextField jTextField1) {
-        this.jTextField1 = jTextField1;
+        this.setCodigo(jTextField1);
     }
 
     /**
@@ -1191,56 +1222,56 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jTextField2
      */
     public javax.swing.JTextField getjTextField2() {
-        return jTextField2;
+        return getNome();
     }
 
     /**
      * @param jTextField2 the jTextField2 to set
      */
     public void setjTextField2(javax.swing.JTextField jTextField2) {
-        this.jTextField2 = jTextField2;
+        this.setNome(jTextField2);
     }
 
     /**
      * @return the jTextField3
      */
     public javax.swing.JTextField getjTextField3() {
-        return jTextField3;
+        return endereco;
     }
 
     /**
      * @param jTextField3 the jTextField3 to set
      */
     public void setjTextField3(javax.swing.JTextField jTextField3) {
-        this.jTextField3 = jTextField3;
+        this.endereco = jTextField3;
     }
 
     /**
      * @return the jTextField4
      */
     public javax.swing.JTextField getjTextField4() {
-        return jTextField4;
+        return getQuarto();
     }
 
     /**
      * @param jTextField4 the jTextField4 to set
      */
     public void setjTextField4(javax.swing.JTextField jTextField4) {
-        this.jTextField4 = jTextField4;
+        this.setQuarto(jTextField4);
     }
 
     /**
      * @return the jTextField5
      */
     public javax.swing.JTextField getjTextField5() {
-        return jTextField5;
+        return getAtendente();
     }
 
     /**
      * @param jTextField5 the jTextField5 to set
      */
     public void setjTextField5(javax.swing.JTextField jTextField5) {
-        this.jTextField5 = jTextField5;
+        this.setAtendente(jTextField5);
     }
 
     /**
@@ -1353,5 +1384,61 @@ public class ViewReserva extends javax.swing.JFrame {
      */
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public javax.swing.JTextField getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(javax.swing.JTextField codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the atendente
+     */
+    public javax.swing.JTextField getAtendente() {
+        return atendente;
+    }
+
+    /**
+     * @param atendente the atendente to set
+     */
+    public void setAtendente(javax.swing.JTextField atendente) {
+        this.atendente = atendente;
+    }
+
+    /**
+     * @return the nome
+     */
+    public javax.swing.JTextField getNome() {
+        return nome;
+    }
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(javax.swing.JTextField nome) {
+        this.nome = nome;
+    }
+
+    /**
+     * @return the quarto
+     */
+    public javax.swing.JTextField getQuarto() {
+        return quarto;
+    }
+
+    /**
+     * @param quarto the quarto to set
+     */
+    public void setQuarto(javax.swing.JTextField quarto) {
+        this.quarto = quarto;
     }
 }

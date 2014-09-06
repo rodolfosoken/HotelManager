@@ -36,26 +36,25 @@ public class QuartoDAO {
         this.view = view;
 
         this.view.addCadastraBotaoListener(new cadastraListener());
-        this.view.addTabelaBotaoListener(new tabelaQuarto());
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
-        this.view.atualiza();
+        atualizaTabela();
     }
 
-    class tabelaQuarto implements ActionListener {
+    public QuartoDAO(EntityManagerFactory emf, Quarto quarto) {
+        this.emf = emf;
+        this.model = quarto;
+    }
 
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            view.getModelo().setNumRows(0);
-            for (Quarto q : getQuartos()) {
-                view.getModelo().addRow(new Object[]{q.getNumQuarto(), q.getCategoria()});
-            }
+    public void atualizaTabela() {
+        view.getModelo().setNumRows(0);
+        for (Quarto q : getQuartos()) {
+            view.getModelo().addRow(new Object[]{q.getNumQuarto(), q.getCategoria()});
         }
-
     }
-    
-    class actionExclui implements ActionListener{
+
+    class actionExclui implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -64,13 +63,13 @@ public class QuartoDAO {
             if (linhaSelecionada >= 0) {
                 int numQuarto = (int) view.getjTable1().getValueAt(linhaSelecionada, 0);
                 exclui(numQuarto);
-                view.atualiza();
+                atualizaTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
-            
+
         }
-        
+
     }
 
     class actionAltera implements ActionListener {
@@ -103,53 +102,50 @@ public class QuartoDAO {
         }
 
     }
-    
-    class actionConcluido implements ActionListener{
+
+    class actionConcluido implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             model.setCategoria(view.getCategoria().getText());
             model.setNumQuarto(Integer.parseInt(view.getNumero().getText()));
             atualiza();
-            view.atualiza();
+            atualizaTabela();
         }
-        
+
     }
-    
-    
-    public void exclui(int id){
+
+    public void exclui(int id) {
         EntityManager em = getEntityManager();
-        try{
-        em.getTransaction().begin();
-        Quarto quarto = em.getReference(Quarto.class, id);
-        em.remove(quarto);
-        em.getTransaction().commit();
-        }finally{
+        try {
+            em.getTransaction().begin();
+            Quarto quarto = em.getReference(Quarto.class, id);
+            em.remove(quarto);
+            em.getTransaction().commit();
+        } finally {
             em.close();
         }
     }
-    
-    
-    public void atualiza(){
+
+    public void atualiza() {
         EntityManager em = getEntityManager();
-        
-        try{
+
+        try {
             em.getTransaction().begin();
             em.merge(model);
             em.getTransaction().commit();
-        }finally{
+        } finally {
             em.close();
         }
-        
+
     }
-    
-    
-    public Quarto busca(int id){
+
+    public Quarto busca(int id) {
         EntityManager em = getEntityManager();
-        try{
-            Query q = em.createNativeQuery("select * from quarto q where q.num_quarto = '"+ id +"'",Quarto.class);
-        return (Quarto)q.getSingleResult();
-        }finally{
+        try {
+            Query q = em.createNativeQuery("select * from quarto q where q.num_quarto = '" + id + "'", Quarto.class);
+            return (Quarto) q.getSingleResult();
+        } finally {
             em.close();
         }
     }

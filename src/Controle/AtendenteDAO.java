@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Controle;
 
 import java.awt.event.ActionEvent;
@@ -22,7 +21,7 @@ import visao.ViewCadAtendente;
  * @author Rodolfo
  */
 public class AtendenteDAO {
-    
+
     private EntityManagerFactory emf = null;
     private Atendente model = null;
     private ViewCadAtendente view;
@@ -37,11 +36,15 @@ public class AtendenteDAO {
         this.view = view;
 
         this.view.addCadastraBotaoListener(new cadastraListener());
-        this.view.addTabelaBotaoListener(new tabelaQuarto());
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
-        this.view.atualiza();
+        atualizaTabela();
+    }
+
+    public AtendenteDAO(EntityManagerFactory emf, Atendente cliente) {
+        this.emf = emf;
+        this.model = cliente;
     }
 
     class cadastraListener implements ActionListener {
@@ -58,22 +61,18 @@ public class AtendenteDAO {
             model.setSenha(view.getSenha().getText());
 
             cadastraCliente();
-            view.atualiza();
+            atualizaTabela();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 
     }
 
-    class tabelaQuarto implements ActionListener {
+    public void atualizaTabela() {
 
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            view.getModelo().setNumRows(0);
-            for (Atendente c : getQuartos()) {
-                view.getModelo().addRow(new Object[]
-                {c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(),c.getSenha(), c.getSalario()}
-                );
-            }
+        view.getModelo().setNumRows(0);
+        for (Atendente c : getQuartos()) {
+            view.getModelo().addRow(new Object[]{c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(), c.getSenha(), c.getSalario()}
+            );
         }
 
     }
@@ -87,7 +86,7 @@ public class AtendenteDAO {
             if (linhaSelecionada >= 0) {
                 String cpf = (String) view.getTabela().getValueAt(linhaSelecionada, 0);
                 exclui(cpf);
-                view.atualiza();
+                atualizaTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
@@ -112,9 +111,8 @@ public class AtendenteDAO {
                 view.getComplemento().setText(model.getComplementoEnd());
                 view.getSenha().setText(model.getSenha());
                 view.getSalario().setText(String.valueOf(model.getSalario()));
-                
-                
-                } else {
+
+            } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
 
@@ -134,7 +132,8 @@ public class AtendenteDAO {
             model.setRua(view.getRua().getText());
             model.setSenha(view.getSenha().getText());
             atualiza();
-            view.atualiza();
+           atualizaTabela();
+           view.limpaCampos();
         }
 
     }
@@ -198,5 +197,4 @@ public class AtendenteDAO {
         }
     }
 
-    
 }
