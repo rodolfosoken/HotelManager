@@ -14,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
 import modelo.Cliente;
+import modelo.TelefoneCliente;
 import visao.ViewCadCliente;
 
 /**
@@ -39,7 +40,7 @@ public class ClienteDAO {
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
-       atualizaTabela();
+        atualizaTabela();
     }
 
     public ClienteDAO(EntityManagerFactory emf) {
@@ -57,6 +58,15 @@ public class ClienteDAO {
             model.setCpf(view.getCpf().getText());
             model.setEmail(view.getEmail().getText());
             model.setRua(view.getRua().getText());
+            if (!view.getTelefone().getText().equals("")) {
+                model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getTelefone().getText()), model));
+            }
+            if (!view.getCelular().getText().equals("")) {
+                model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getCelular().getText()), model));
+            }
+            if (!view.getComercial().getText().equals("")) {
+                model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getComercial().getText()), model));
+            }
 
             cadastraCliente();
             atualizaTabela();
@@ -106,6 +116,23 @@ public class ClienteDAO {
                 view.getCep().setText(String.valueOf(model.getCep()));
                 view.getComplemento().setText(model.getComplementoEnd());
                 view.getEmail().setText(model.getEmail());
+                int i = 0;
+                for (TelefoneCliente c : model.getTelefoneClienteCollection()) {
+                    switch (i) {
+                        case 0:
+                            view.getTelefone().setText(c.getTelefone().toString());
+                            break;
+
+                        case 1:
+                            view.getCelular().setText(c.getTelefone().toString());
+                            break;
+
+                        case 2:
+                            view.getComercial().setText(c.getTelefone().toString());
+                            break;
+                    }
+                    i++;
+                }
 
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
@@ -125,9 +152,18 @@ public class ClienteDAO {
             model.setCpf(view.getCpf().getText());
             model.setEmail(view.getEmail().getText());
             model.setRua(view.getRua().getText());
+            if (!view.getTelefone().getText().equals("")) {
+                model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getTelefone().getText()), model));
+            }
+            if (!view.getCelular().getText().equals("")) {
+                model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getCelular().getText()), model));
+            }
+            if (!view.getComercial().getText().equals("")) {
+                model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getComercial().getText()), model));
+            }
             atualiza();
-           atualizaTabela();
-           view.limpaCampos();
+            atualizaTabela();
+            view.limpaCampos();
         }
 
     }
@@ -176,10 +212,11 @@ public class ClienteDAO {
             em.close();
         }
     }
-        public List<Cliente> getClientesPorNome(String nome) {
+
+    public List<Cliente> getClientesPorNome(String nome) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from cliente c where c.nome LIKE '%"+nome+"%'", Cliente.class);
+            Query q = em.createNativeQuery("select * from cliente c where c.nome LIKE '%" + nome + "%'", Cliente.class);
             return q.getResultList();
         } finally {
             em.close();
@@ -192,6 +229,9 @@ public class ClienteDAO {
         }
         if (model.getReservaCollection() == null) {
             model.setReservaCollection(new ArrayList<>());
+        }
+        if (model.getTelefoneClienteCollection() == null) {
+            model.setTelefoneClienteCollection(new ArrayList<>());
         }
         EntityManager em = getEntityManager();
         em.getTransaction().begin();

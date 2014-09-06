@@ -39,8 +39,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="categoria" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                              <Component id="valor" min="-2" pref="90" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
                           </Group>
                           <Component id="numero" max="32767" attributes="0"/>
                       </Group>
@@ -84,7 +84,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="categoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="valor" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cadastra" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="exclui" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -113,7 +113,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Categoria:"/>
+        <Property name="text" type="java.lang.String" value="Valor"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="numero">
@@ -121,9 +121,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="numeroActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="categoria">
+    <Component class="javax.swing.JTextField" name="valor">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoriaActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="valorActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cadastra">

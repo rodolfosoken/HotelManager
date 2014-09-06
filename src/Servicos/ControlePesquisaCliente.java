@@ -32,10 +32,11 @@ public class ControlePesquisaCliente {
         this.emf = emf;
         this.view = view;
         this.view.setVisible(true);
+        atualizaTabela();
         iniciaListeners();
     }
-    
-    private void iniciaListeners(){
+
+    private void iniciaListeners() {
         this.view.addNomeListener(new NomeListener());
         this.view.addTabelaListener(new TabelaListener());
     }
@@ -57,19 +58,18 @@ public class ControlePesquisaCliente {
             );
         }
     }
-    
-    class TabelaListener implements MouseListener{
+
+    class TabelaListener implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent me) {
-          int linhaSelecionada = -1;
+            int linhaSelecionada = -1;
             linhaSelecionada = view.getTabela().getSelectedRow();
             if (linhaSelecionada >= 0) {
                 String cpf = (String) view.getTabela().getValueAt(linhaSelecionada, 0);
                 view.setSelecionado(cpf);
-                System.out.println(cpf);
                 view.dispose();
-                } 
+            }
         }
 
         @Override
@@ -87,7 +87,7 @@ public class ControlePesquisaCliente {
         @Override
         public void mouseExited(MouseEvent me) {
         }
-        
+
     }
 
     class NomeListener implements KeyListener {

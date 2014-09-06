@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -21,40 +23,26 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Rodolfo
  */
 @Entity
-@Table(name = "telefone")
+@Table(name = "telefone_atendente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Telefone.findAll", query = "SELECT t FROM Telefone t"),
-    @NamedQuery(name = "Telefone.findByCpf", query = "SELECT t FROM Telefone t WHERE t.cpf = :cpf"),
-    @NamedQuery(name = "Telefone.findByTelefone", query = "SELECT t FROM Telefone t WHERE t.telefone = :telefone")})
-public class Telefone implements Serializable {
+    @NamedQuery(name = "TelefoneAtendente.findAll", query = "SELECT t FROM TelefoneAtendente t"),
+    @NamedQuery(name = "TelefoneAtendente.findByTelefone", query = "SELECT t FROM TelefoneAtendente t WHERE t.telefone = :telefone")})
+public class TelefoneAtendente implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @Column(name = "CPF")
-    private String cpf;
     @Id
     @Basic(optional = false)
     @Column(name = "telefone")
     private Integer telefone;
+    @JoinColumn(name = "CPF", referencedColumnName = "CPF")
+    @ManyToOne(optional = false)
+    private Atendente cpf;
 
-    public Telefone() {
+    public TelefoneAtendente() {
     }
 
-    public Telefone(Integer telefone) {
+    public TelefoneAtendente(Integer telefone) {
         this.telefone = telefone;
-    }
-
-    public Telefone(Integer telefone, String cpf) {
-        this.telefone = telefone;
-        this.cpf = cpf;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public Integer getTelefone() {
@@ -63,6 +51,14 @@ public class Telefone implements Serializable {
 
     public void setTelefone(Integer telefone) {
         this.telefone = telefone;
+    }
+
+    public Atendente getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(Atendente cpf) {
+        this.cpf = cpf;
     }
 
     @Override
@@ -75,10 +71,10 @@ public class Telefone implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Telefone)) {
+        if (!(object instanceof TelefoneAtendente)) {
             return false;
         }
-        Telefone other = (Telefone) object;
+        TelefoneAtendente other = (TelefoneAtendente) object;
         if ((this.telefone == null && other.telefone != null) || (this.telefone != null && !this.telefone.equals(other.telefone))) {
             return false;
         }
@@ -87,7 +83,7 @@ public class Telefone implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Telefone[ telefone=" + telefone + " ]";
+        return "modelo.TelefoneAtendente[ telefone=" + telefone + " ]";
     }
     
 }

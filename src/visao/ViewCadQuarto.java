@@ -50,7 +50,7 @@ public class ViewCadQuarto extends javax.swing.JFrame {
     private void criaJTable() {
         tabela.setModel(getModelo());
         getModelo().addColumn("Numero");
-        getModelo().addColumn("Categoria");
+        getModelo().addColumn("Valor");
         tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(120);
     }
@@ -69,7 +69,7 @@ public class ViewCadQuarto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         numero = new javax.swing.JTextField();
-        categoria = new javax.swing.JTextField();
+        valor = new javax.swing.JTextField();
         cadastra = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -86,7 +86,7 @@ public class ViewCadQuarto extends javax.swing.JFrame {
 
         jLabel2.setText("Numero:");
 
-        jLabel3.setText("Categoria:");
+        jLabel3.setText("Valor");
 
         numero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,9 +94,9 @@ public class ViewCadQuarto extends javax.swing.JFrame {
             }
         });
 
-        categoria.addActionListener(new java.awt.event.ActionListener() {
+        valor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoriaActionPerformed(evt);
+                valorActionPerformed(evt);
             }
         });
 
@@ -174,8 +174,8 @@ public class ViewCadQuarto extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 12, Short.MAX_VALUE))
+                                .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 22, Short.MAX_VALUE))
                             .addComponent(numero))
                         .addGap(240, 240, 240)
                         .addComponent(cadastra)
@@ -207,7 +207,7 @@ public class ViewCadQuarto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cadastra)
                     .addComponent(exclui))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -224,9 +224,9 @@ public class ViewCadQuarto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_numeroActionPerformed
 
-    private void categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaActionPerformed
+    private void valorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_categoriaActionPerformed
+    }//GEN-LAST:event_valorActionPerformed
 
     private void cadastraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastraActionPerformed
         // TODO add your handling code here:
@@ -274,7 +274,6 @@ public class ViewCadQuarto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton altera;
     private javax.swing.JButton cadastra;
-    private javax.swing.JTextField categoria;
     private javax.swing.JButton concluido;
     private javax.swing.JButton exclui;
     private javax.swing.JButton jButton3;
@@ -285,6 +284,7 @@ public class ViewCadQuarto extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField numero;
     private javax.swing.JTable tabela;
+    private javax.swing.JTextField valor;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -304,15 +304,15 @@ public class ViewCadQuarto extends javax.swing.JFrame {
     /**
      * @return the categoria
      */
-    public javax.swing.JTextField getCategoria() {
-        return categoria;
+    public javax.swing.JTextField getValor() {
+        return valor;
     }
 
     /**
      * @param categoria the categoria to set
      */
-    public void setCategoria(javax.swing.JTextField categoria) {
-        this.categoria = categoria;
+    public void setValor(javax.swing.JTextField categoria) {
+        this.valor = categoria;
     }
 
     /**

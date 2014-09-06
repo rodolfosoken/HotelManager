@@ -8,8 +8,17 @@ package Controle;
 import Servicos.ControlePesquisaCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -17,7 +26,9 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import modelo.Atendente;
 import modelo.Cliente;
+import modelo.Quarto;
 import modelo.Reserva;
+import modelo.TelefoneCliente;
 import visao.PesquisaCliente;
 import visao.ViewReserva;
 
@@ -34,6 +45,9 @@ public class ReservaDAO {
     private Cliente cliente = null;
     private ClienteDAO clienteDAO = null;
     private Atendente atendente = null;
+    private AtendenteDAO atendenteDAO = null;
+    private Quarto quarto = null;
+    private QuartoDAO quartoDAO = null;
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -45,9 +59,22 @@ public class ReservaDAO {
         this.view = view;
         this.main = win;
         this.clienteDAO = new ClienteDAO(emf);
+        this.atendenteDAO = new AtendenteDAO(emf);
+        this.quartoDAO = new QuartoDAO(emf);
         iniciaListeners();
         atualizaTabela();
+        setAtendentes();
+        setQuartos();
+        getDataHoje();
+    }
 
+    private void getDataHoje() {
+        Date x = new Date();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = new GregorianCalendar();
+        view.getDtEntrada().setText(sdf1.format(x));
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        view.getDtSaida().setText(sdf1.format(c.getTime()));
     }
 
     private void iniciaListeners() {
@@ -57,6 +84,7 @@ public class ReservaDAO {
         this.view.addConcluidoBotaoListener(new AcaoConcluido());
         this.view.addExcluiBotaoListener(new AcaoExclui());
         this.view.addPesquisaListener(new AcaoPesquisar());
+        this.view.addQuartoListener(new AcaoQuarto());
     }
 
     //Recupera informações para preencher a tabela    
@@ -74,6 +102,77 @@ public class ReservaDAO {
         }
     }
 
+    public void setAtendentes() {
+        List<String> atend = new ArrayList<>();
+        for (Atendente a : atendenteDAO.getAtendentes()) {
+            atend.add(a.getNome());
+        }
+        view.setAtendentes(atend);
+        view.atendentelist();
+
+    }
+
+    public void setQuartos() {
+        List<String> quar = new ArrayList<>();
+        for (Quarto q : quartoDAO.getQuartos()) {
+            quar.add(q.getNumQuarto().toString());
+        }
+        view.setQuartos(quar);
+        view.quartosList();
+    }
+
+    public void setDadosCliente() {
+        view.getNome().setText(cliente.getNome());
+        view.getEndereco().setText(cliente.getRua());
+        view.getCodigo().setText(cliente.getCpf());
+        int i = 0;
+        for (TelefoneCliente c : cliente.getTelefoneClienteCollection()) {
+            switch (i) {
+                case 0:
+                    view.getTelefone().setText(c.getTelefone().toString());
+                    break;
+
+                case 1:
+                    view.getCelular().setText(c.getTelefone().toString());
+                    break;
+
+                case 2:
+                    view.getComercial().setText(c.getTelefone().toString());
+                    break;
+            }
+            i++;
+        }
+    }
+
+    class AcaoQuarto implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent me) {
+            if (!view.getQuarto().getSelectedItem().equals("")) {
+                quarto = quartoDAO.busca(Integer.parseInt(view.getQuarto().getSelectedItem().toString()));
+                view.getValorQuarto().setText(quarto.getValor().toString());
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent me) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent me) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent me) {
+        }
+
+    }
+
     class AcaoPesquisar implements ActionListener {
 
         @Override
@@ -81,9 +180,7 @@ public class ReservaDAO {
             if (!view.getCodigo().getText().equals("")) {
                 if (clienteDAO.existe(view.getCodigo().getText())) {
                     cliente = clienteDAO.busca(view.getCodigo().getText());
-                    view.getNome().setText(cliente.getNome());
-                    view.getEndereco().setText(cliente.getRua());
-
+                    setDadosCliente();
                 } else {
                     //cliente não encontrado
                     JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
@@ -106,10 +203,10 @@ public class ReservaDAO {
         dia.setContentPane(pesquisa.getContentPane());
         dia.setBounds(pesquisa.getBounds());
         dia.setVisible(true);
-        cliente = clienteDAO.busca(pesquisa.getSelecionado());
-        view.getNome().setText(cliente.getNome());
-        view.getEndereco().setText(cliente.getRua());
-        view.getCodigo().setText(cliente.getCpf());
+        if (pesquisa.getSelecionado() != null) {
+            cliente = clienteDAO.busca(pesquisa.getSelecionado());
+            setDadosCliente();
+        }
     }
 
     class AcaoNovo implements ActionListener {
@@ -162,7 +259,27 @@ public class ReservaDAO {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            model.setCpfAtend(atendenteDAO.buscaPorNome(view.getAtendente().getSelectedItem().toString()));
+            model.setCpfCliente(cliente);
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            java.sql.Date data = null;
+            try {
+                data = new java.sql.Date(format.parse(view.getDtEntrada().getText()).getTime());
+            } catch (ParseException ex) {
+                Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            model.setDtIn(data);
+            try {
+                data = new java.sql.Date(format.parse(view.getDtSaida().getText()).getTime());
+            } catch (ParseException ex) {
+                Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            model.setDtOut(data);
+            model.setNumQuarto(quarto);
+            model.setValor(500.00);
+            
             cadastraReserva();
+            atualizaTabela();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 

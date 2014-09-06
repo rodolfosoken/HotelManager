@@ -7,18 +7,14 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,17 +26,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Quarto.findAll", query = "SELECT q FROM Quarto q"),
     @NamedQuery(name = "Quarto.findByNumQuarto", query = "SELECT q FROM Quarto q WHERE q.numQuarto = :numQuarto"),
-    @NamedQuery(name = "Quarto.findByCategoria", query = "SELECT q FROM Quarto q WHERE q.categoria = :categoria")})
+    @NamedQuery(name = "Quarto.findByValor", query = "SELECT q FROM Quarto q WHERE q.valor = :valor")})
 public class Quarto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "num_quarto")
     private Integer numQuarto;
-    @Column(name = "categoria")
-    private String categoria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "numQuarto")
-    private Collection<Reserva> reservaCollection;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "valor")
+    private Double valor;
 
     public Quarto() {
     }
@@ -57,21 +52,12 @@ public class Quarto implements Serializable {
         this.numQuarto = numQuarto;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public Double getValor() {
+        return valor;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    @XmlTransient
-    public Collection<Reserva> getReservaCollection() {
-        return reservaCollection;
-    }
-
-    public void setReservaCollection(Collection<Reserva> reservaCollection) {
-        this.reservaCollection = reservaCollection;
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
     @Override

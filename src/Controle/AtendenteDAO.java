@@ -41,6 +41,10 @@ public class AtendenteDAO {
         this.view.addExcluiBotaoListener(new actionExclui());
         atualizaTabela();
     }
+    
+    public AtendenteDAO(EntityManagerFactory emf){
+        this.emf = emf;
+    }
 
     public AtendenteDAO(EntityManagerFactory emf, Atendente cliente) {
         this.emf = emf;
@@ -60,7 +64,7 @@ public class AtendenteDAO {
             model.setRua(view.getRua().getText());
             model.setSenha(view.getSenha().getText());
 
-            cadastraCliente();
+            cadastraAtendente();
             atualizaTabela();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
@@ -70,7 +74,7 @@ public class AtendenteDAO {
     public void atualizaTabela() {
 
         view.getModelo().setNumRows(0);
-        for (Atendente c : getQuartos()) {
+        for (Atendente c : getAtendentes()) {
             view.getModelo().addRow(new Object[]{c.getCpf(), c.getNome(), c.getRua(), c.getCep(), c.getComplementoEnd(), c.getSenha(), c.getSalario()}
             );
         }
@@ -172,8 +176,17 @@ public class AtendenteDAO {
             em.close();
         }
     }
+        public Atendente buscaPorNome(String nome) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createNativeQuery("select * from atendente c where c.nome = '" + nome + "'", Atendente.class);
+            return (Atendente) q.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 
-    public List<Atendente> getQuartos() {
+    public List<Atendente> getAtendentes() {
         EntityManager em = getEntityManager();
         try {
             Query q = em.createNativeQuery("select * from atendente", Atendente.class);
@@ -183,7 +196,7 @@ public class AtendenteDAO {
         }
     }
 
-    public void cadastraCliente() {
+    public void cadastraAtendente() {
         if (model.getReservaCollection() == null) {
             model.setReservaCollection(new ArrayList<>());
         }

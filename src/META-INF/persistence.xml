@@ -5,13 +5,15 @@
     <class>modelo.Atendente</class>
     <class>modelo.Servico</class>
     <class>modelo.Reserva</class>
-    <class>modelo.Telefone</class>
     <class>modelo.Cliente</class>
     <class>modelo.Camareiro</class>
     <class>modelo.Produto</class>
     <class>modelo.Pagamento</class>
     <class>modelo.Acompanhante</class>
     <class>modelo.Quarto</class>
+    <class>modelo.TelefoneCamareiro</class>
+    <class>modelo.TelefoneAtendente</class>
+    <class>modelo.TelefoneCliente</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotel_manager?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

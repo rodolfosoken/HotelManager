@@ -42,15 +42,14 @@ public class QuartoDAO {
         atualizaTabela();
     }
 
-    public QuartoDAO(EntityManagerFactory emf, Quarto quarto) {
+    public QuartoDAO(EntityManagerFactory emf) {
         this.emf = emf;
-        this.model = quarto;
     }
 
     public void atualizaTabela() {
         view.getModelo().setNumRows(0);
         for (Quarto q : getQuartos()) {
-            view.getModelo().addRow(new Object[]{q.getNumQuarto(), q.getCategoria()});
+            view.getModelo().addRow(new Object[]{q.getNumQuarto(), q.getValor()});
         }
     }
 
@@ -82,7 +81,7 @@ public class QuartoDAO {
                 int numQuarto = (int) view.getjTable1().getValueAt(linhaSelecionada, 0);
                 model = busca(numQuarto);
                 view.getNumero().setText(String.valueOf(model.getNumQuarto()));
-                view.getCategoria().setText(model.getCategoria());
+                view.getValor().setText(model.getValor().toString());
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
@@ -96,8 +95,9 @@ public class QuartoDAO {
         @Override
         public void actionPerformed(ActionEvent ae) {
             model.setNumQuarto(Integer.parseInt(view.getNumero().getText()));
-            model.setCategoria(view.getCategoria().getText());
+            model.setValor(Double.parseDouble(view.getValor().getText()));
             cadastraQuarto();
+            atualizaTabela();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 
@@ -107,7 +107,7 @@ public class QuartoDAO {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            model.setCategoria(view.getCategoria().getText());
+            model.setValor(Double.parseDouble(view.getValor().getText()));
             model.setNumQuarto(Integer.parseInt(view.getNumero().getText()));
             atualiza();
             atualizaTabela();
@@ -161,9 +161,6 @@ public class QuartoDAO {
     }
 
     public void cadastraQuarto() {
-        if (model.getReservaCollection() == null) {
-            model.setReservaCollection(new ArrayList<>());
-        }
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         try {

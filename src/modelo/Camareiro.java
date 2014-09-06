@@ -7,14 +7,18 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Camareiro.findBySalario", query = "SELECT c FROM Camareiro c WHERE c.salario = :salario"),
     @NamedQuery(name = "Camareiro.findByTurno", query = "SELECT c FROM Camareiro c WHERE c.turno = :turno")})
 public class Camareiro implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
+    private Collection<TelefoneCamareiro> telefoneCamareiroCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -138,6 +144,15 @@ public class Camareiro implements Serializable {
     @Override
     public String toString() {
         return "modelo.Camareiro[ cpf=" + cpf + " ]";
+    }
+
+    @XmlTransient
+    public Collection<TelefoneCamareiro> getTelefoneCamareiroCollection() {
+        return telefoneCamareiroCollection;
+    }
+
+    public void setTelefoneCamareiroCollection(Collection<TelefoneCamareiro> telefoneCamareiroCollection) {
+        this.telefoneCamareiroCollection = telefoneCamareiroCollection;
     }
     
 }
