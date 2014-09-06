@@ -64,10 +64,10 @@ public class ReservaDAO {
         this.atendenteDAO = new AtendenteDAO(emf);
         this.quartoDAO = new QuartoDAO(emf);
         iniciaListeners();
-        atualizaTabela();
         setAtendentes();
         setQuartos();
         getDataHoje();
+        atualizaTabela();
     }
 
     private void getDataHoje() {
@@ -88,6 +88,22 @@ public class ReservaDAO {
         this.view.addPesquisaListener(new AcaoPesquisar());
         this.view.addQuartoListener(new AcaoQuarto());
         this.view.addQuarto2Listener(new AcaoQuarto2());
+        this.view.addDtSaidaListener(new AcaoDataFocusLost());
+        this.view.addDtEntradaListener(new AcaoDataFocusLost());
+    }
+    
+    class AcaoDataFocusLost implements FocusListener{
+
+        @Override
+        public void focusGained(FocusEvent fe) {
+            atualizaTabelaComcriterios();
+            }
+
+        @Override
+        public void focusLost(FocusEvent fe) {
+            atualizaTabelaComcriterios();
+           }
+        
     }
 
     //Recupera informações para preencher a tabela    
@@ -95,6 +111,21 @@ public class ReservaDAO {
         view.getModelo().setNumRows(0);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         for (Reserva r : getReservas()) {
+            view.getModelo().addRow(new Object[]{
+                r.getCpfCliente().getNome(),
+                r.getNumQuarto().getNumQuarto(),
+                df.format(r.getDtIn()),
+                df.format(r.getDtOut()),
+                r.getValor()});
+
+        }
+    }
+
+    //Recupera informações para preencher a tabela    
+    public void atualizaTabelaComcriterios() {
+        view.getModelo().setNumRows(0);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        for (Reserva r : getReservasComCriterios()) {
             view.getModelo().addRow(new Object[]{
                 r.getCpfCliente().getNome(),
                 r.getNumQuarto().getNumQuarto(),
@@ -165,6 +196,7 @@ public class ReservaDAO {
                 quarto = quartoDAO.busca(Integer.parseInt(view.getQuarto().getSelectedItem().toString()));
                 view.getValorQuarto().setText(quarto.getValor().toString());
                 calculaTotal();
+                atualizaTabelaComcriterios();
             }
         }
 
@@ -308,13 +340,13 @@ public class ReservaDAO {
                         model.setNumQuarto(quarto);
                         model.setValor(Double.parseDouble(view.getValorTotal().getText()));
 
-                        if (verificaDisponibilidade(quarto, model.getDtIn(),model.getDtOut())) {
+                        if (verificaDisponibilidade(quarto, model.getDtIn(), model.getDtOut())) {
                             cadastraReserva();
                             atualizaTabela();
                             main.atualizaTabela();
                             JOptionPane.showMessageDialog(null, "Reserva Cadastrada com Sucesso!");
                             view.dispose();
-                        }else{
+                        } else {
                             JOptionPane.showMessageDialog(null, "Quarto já reservado para esta data.");
                         }
                     } else {
@@ -351,9 +383,7 @@ public class ReservaDAO {
             data_in = new java.sql.Date(dataEntrada.getTime());
             data_out = new java.sql.Date(dataSaida.getTime());
             Query q = em.createNativeQuery("select * from reserva r where r.num_quarto = '" + quarto.getNumQuarto()
-                    + "' AND '" + data_out + "' >= dt_in AND '" + data_in + "' <= dt_in OR '"+data_in+"' <= dt_out AND '"+ data_out +"' > dt_out;");
-            System.out.println("select * from reserva r where r.num_quarto = '" + quarto.getNumQuarto()
-                    + "' AND '" + data_out + "' >= dt_in AND '" + data_in + "' <= dt_in OR '"+data_in+"' <= dt_out AND '"+ data_out +"' > dt_out;");
+                    + "' AND '" + data_out + "' >= dt_in AND '" + data_in + "' <= dt_in OR '" + data_in + "' <= dt_out AND '" + data_out + "' > dt_out;");
             if (q.getResultList().isEmpty()) {
                 disponivel = true;
             }
@@ -418,6 +448,35 @@ public class ReservaDAO {
         } finally {
             em.close();
         }
+
+    }
+
+    public List<Reserva> getReservasComCriterios() {
+        EntityManager em = getEntityManager();
+        if ((!view.getDtEntrada().getText().isEmpty()) || (!view.getDtSaida().getText().isEmpty())) {
+            if (!view.getQuarto().getSelectedItem().equals("")) {
+                try {
+                    java.sql.Date data_in = null, data_out = null;
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    data_in = new java.sql.Date(format.parse(view.getDtEntrada().getText()).getTime());
+                    data_out = new java.sql.Date(format.parse(view.getDtSaida().getText()).getTime());
+                    Query q = em.createNativeQuery("select * from reserva r where r.num_quarto = '" + view.getQuarto().getSelectedItem()
+                            + "' AND '" + data_out + "' >= dt_in AND '" + data_in + "' <= dt_in OR '" + data_in + "' <= dt_out AND '" + data_out + "' > dt_out;", Reserva.class);
+                    return q.getResultList();
+
+                } catch (ParseException ex) {
+                    Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    em.close();
+                }
+            } else {
+                return getReservas();
+            }
+
+        } else {
+            return getReservas();
+        }
+        return getReservas();
 
     }
 

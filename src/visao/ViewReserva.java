@@ -77,8 +77,8 @@ public class ViewReserva extends javax.swing.JFrame {
         getModelo().addColumn("Data Entrada");
         getModelo().addColumn("Data Saída");
         getModelo().addColumn("Valor");
-        getTabela().getColumnModel().getColumn(0).setPreferredWidth(80);
-        getTabela().getColumnModel().getColumn(1).setPreferredWidth(200);
+        getTabela().getColumnModel().getColumn(0).setPreferredWidth(200);
+        getTabela().getColumnModel().getColumn(1).setPreferredWidth(80);
         getTabela().getColumnModel().getColumn(2).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
@@ -146,6 +146,14 @@ public class ViewReserva extends javax.swing.JFrame {
 
     public JButton getPesquisar() {
         return pesquisar;
+    }
+    
+    public void addDtSaidaListener(FocusListener listener){
+        dtSaida.addFocusListener(listener);
+    }
+    
+    public void addDtEntradaListener(FocusListener listener){
+        dtEntrada.addFocusListener(listener);
     }
 
     public void addQuarto2Listener(FocusListener listener) {
