@@ -6,6 +6,7 @@
 package visao;
 
 import java.awt.event.ActionListener;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +126,9 @@ public class ViewReserva extends javax.swing.JFrame {
 
     public JButton getPesquisar() {
         return pesquisar;
+    }
+        public void addQuarto2Listener(FocusListener listener){
+        quarto.addFocusListener(listener);
     }
     
     public void addQuartoListener(MouseListener listener){

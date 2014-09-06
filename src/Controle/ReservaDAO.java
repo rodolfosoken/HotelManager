@@ -8,6 +8,8 @@ package Controle;
 import Servicos.ControlePesquisaCliente;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -85,6 +87,7 @@ public class ReservaDAO {
         this.view.addExcluiBotaoListener(new AcaoExclui());
         this.view.addPesquisaListener(new AcaoPesquisar());
         this.view.addQuartoListener(new AcaoQuarto());
+        this.view.addQuarto2Listener(new AcaoQuarto2());
     }
 
     //Recupera informações para preencher a tabela    
@@ -142,6 +145,22 @@ public class ReservaDAO {
             }
             i++;
         }
+    }
+
+    class AcaoQuarto2 implements FocusListener {
+
+        @Override
+        public void focusGained(FocusEvent fe) {
+        }
+
+        @Override
+        public void focusLost(FocusEvent fe) {
+            if (!view.getQuarto().getSelectedItem().equals("")) {
+                quarto = quartoDAO.busca(Integer.parseInt(view.getQuarto().getSelectedItem().toString()));
+                view.getValorQuarto().setText(quarto.getValor().toString());
+            }
+        }
+
     }
 
     class AcaoQuarto implements MouseListener {
@@ -259,28 +278,39 @@ public class ReservaDAO {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            model.setCpfAtend(atendenteDAO.buscaPorNome(view.getAtendente().getSelectedItem().toString()));
-            model.setCpfCliente(cliente);
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            java.sql.Date data = null;
-            try {
-                data = new java.sql.Date(format.parse(view.getDtEntrada().getText()).getTime());
-            } catch (ParseException ex) {
-                Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            if (cliente != null) {
+                model.setCpfAtend(atendenteDAO.buscaPorNome(view.getAtendente().getSelectedItem().toString()));
+                model.setCpfCliente(cliente);
+                
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                java.sql.Date data = null;
+                try {
+                    data = new java.sql.Date(format.parse(view.getDtEntrada().getText()).getTime());
+                } catch (ParseException ex) {
+                    Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                model.setDtIn(data);
+                try {
+                    data = new java.sql.Date(format.parse(view.getDtSaida().getText()).getTime());
+                } catch (ParseException ex) {
+                    Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                model.setDtOut(data);
+                if (quarto != null) {
+                    model.setNumQuarto(quarto);
+                    model.setValor(500.00);
+
+                    cadastraReserva();
+                    atualizaTabela();
+                    main.atualizaTabela();
+                    JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecione um Quarto.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um Cliente");
             }
-            model.setDtIn(data);
-            try {
-                data = new java.sql.Date(format.parse(view.getDtSaida().getText()).getTime());
-            } catch (ParseException ex) {
-                Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            model.setDtOut(data);
-            model.setNumQuarto(quarto);
-            model.setValor(500.00);
-            
-            cadastraReserva();
-            atualizaTabela();
-            JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 
     }
