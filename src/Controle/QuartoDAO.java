@@ -143,7 +143,7 @@ public class QuartoDAO {
     public Quarto busca(int id) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from quarto q where q.num_quarto = '" + id + "'", Quarto.class);
+            Query q = em.createNativeQuery("select * from quarto q where q.num_quarto = '" + id + "';", Quarto.class);
             return (Quarto) q.getSingleResult();
         } finally {
             em.close();
@@ -153,7 +153,7 @@ public class QuartoDAO {
     public List<Quarto> getQuartos() {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from quarto", Quarto.class);
+            Query q = em.createNativeQuery("select * from quarto;", Quarto.class);
             return q.getResultList();
         } finally {
             em.close();

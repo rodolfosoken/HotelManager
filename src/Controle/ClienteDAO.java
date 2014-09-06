@@ -196,7 +196,7 @@ public class ClienteDAO {
     public Cliente busca(String id) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from cliente c where c.CPF = '" + id + "'", Cliente.class);
+            Query q = em.createNativeQuery("select * from cliente c where c.CPF = '" + id + "';", Cliente.class);
             return (Cliente) q.getSingleResult();
         } finally {
             em.close();
@@ -206,7 +206,7 @@ public class ClienteDAO {
     public List<Cliente> getClientes() {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from cliente", Cliente.class);
+            Query q = em.createNativeQuery("select * from cliente;", Cliente.class);
             return q.getResultList();
         } finally {
             em.close();
@@ -216,7 +216,7 @@ public class ClienteDAO {
     public List<Cliente> getClientesPorNome(String nome) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from cliente c where c.nome LIKE '%" + nome + "%'", Cliente.class);
+            Query q = em.createNativeQuery("select * from cliente c where c.nome LIKE '%" + nome + "%';", Cliente.class);
             return q.getResultList();
         } finally {
             em.close();

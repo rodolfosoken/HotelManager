@@ -99,6 +99,15 @@ public class ViewReserva extends javax.swing.JFrame {
         }
     }
 
+    public JTextField getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(JTextField valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+    
+
     public JTextField getCelular() {
         return celular;
     }
@@ -763,14 +772,14 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jTextField8
      */
     public javax.swing.JTextField getjTextField8() {
-        return jTextField8;
+        return valorTotal;
     }
 
     /**
      * @param jTextField8 the jTextField8 to set
      */
     public void setjTextField8(javax.swing.JTextField jTextField8) {
-        this.jTextField8 = jTextField8;
+        this.valorTotal = jTextField8;
     }
 
     /**
@@ -964,7 +973,7 @@ public class ViewReserva extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        valorTotal = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -1324,10 +1333,10 @@ public class ViewReserva extends javax.swing.JFrame {
 
         jLabel11.setText("Valor Total");
 
-        jTextField8.setEditable(false);
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        valorTotal.setEditable(false);
+        valorTotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                valorTotalActionPerformed(evt);
             }
         });
 
@@ -1390,7 +1399,7 @@ public class ViewReserva extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField6)
-                    .addComponent(jTextField8)
+                    .addComponent(valorTotal)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1426,7 +1435,7 @@ public class ViewReserva extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(valorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
                         .addComponent(jLabel14)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1520,9 +1529,9 @@ public class ViewReserva extends javax.swing.JFrame {
 
     }//GEN-LAST:event_novoActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void valorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorTotalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_valorTotalActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
         // TODO add your handling code here:
@@ -1632,7 +1641,6 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTextField nome;
     private javax.swing.JButton novo;
@@ -1642,6 +1650,7 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JTable tabela;
     private javax.swing.JTextField telefone;
     private javax.swing.JTextField valorQuarto;
+    private javax.swing.JTextField valorTotal;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -170,7 +170,7 @@ public class AtendenteDAO {
     public Atendente busca(String id) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from atendente c where c.CPF = '" + id + "'", Atendente.class);
+            Query q = em.createNativeQuery("select * from atendente c where c.CPF = '" + id + "';", Atendente.class);
             return (Atendente) q.getSingleResult();
         } finally {
             em.close();
@@ -179,7 +179,7 @@ public class AtendenteDAO {
         public Atendente buscaPorNome(String nome) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from atendente c where c.nome = '" + nome + "'", Atendente.class);
+            Query q = em.createNativeQuery("select * from atendente c where c.nome = '" + nome + "';", Atendente.class);
             return (Atendente) q.getSingleResult();
         } finally {
             em.close();
@@ -189,7 +189,7 @@ public class AtendenteDAO {
     public List<Atendente> getAtendentes() {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from atendente", Atendente.class);
+            Query q = em.createNativeQuery("select * from atendente;", Atendente.class);
             return q.getResultList();
         } finally {
             em.close();
@@ -208,6 +208,21 @@ public class AtendenteDAO {
         } finally {
             em.close();
         }
+    }
+    
+        public boolean existe(String cpf) {
+        boolean existe = false;
+        EntityManager em = getEntityManager();
+        try {
+            if (em.find(Atendente.class, cpf) != null) {
+                existe = true;
+            }
+        } finally {
+            em.close();
+        }
+
+        return existe;
+
     }
 
 }

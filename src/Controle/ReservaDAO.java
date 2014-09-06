@@ -147,6 +147,12 @@ public class ReservaDAO {
         }
     }
 
+    private void calculaTotal() {
+
+        Double total = quarto.getValor();
+        view.getValorTotal().setText(String.valueOf(total));
+    }
+
     class AcaoQuarto2 implements FocusListener {
 
         @Override
@@ -158,6 +164,7 @@ public class ReservaDAO {
             if (!view.getQuarto().getSelectedItem().equals("")) {
                 quarto = quartoDAO.busca(Integer.parseInt(view.getQuarto().getSelectedItem().toString()));
                 view.getValorQuarto().setText(quarto.getValor().toString());
+                calculaTotal();
             }
         }
 
@@ -170,6 +177,7 @@ public class ReservaDAO {
             if (!view.getQuarto().getSelectedItem().equals("")) {
                 quarto = quartoDAO.busca(Integer.parseInt(view.getQuarto().getSelectedItem().toString()));
                 view.getValorQuarto().setText(quarto.getValor().toString());
+                calculaTotal();
             }
         }
 
@@ -298,14 +306,17 @@ public class ReservaDAO {
                     model.setDtOut(data);
                     if (quarto != null) {
                         model.setNumQuarto(quarto);
-                        model.setValor(500.00);
+                        model.setValor(Double.parseDouble(view.getValorTotal().getText()));
 
-                        cadastraReserva();
-                        atualizaTabela();
-                        main.atualizaTabela();
-                        JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
-                        view.dispose();
-
+                        if (verificaDisponibilidade(quarto, model.getDtIn(),model.getDtOut())) {
+                            cadastraReserva();
+                            atualizaTabela();
+                            main.atualizaTabela();
+                            JOptionPane.showMessageDialog(null, "Reserva Cadastrada com Sucesso!");
+                            view.dispose();
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Quarto já reservado para esta data.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Selecione um Quarto.");
                     }
@@ -330,6 +341,28 @@ public class ReservaDAO {
             atualizaTabela();
         }
 
+    }
+
+    public boolean verificaDisponibilidade(Quarto quarto, Date dataEntrada, Date dataSaida) {
+        boolean disponivel = false;
+        EntityManager em = getEntityManager();
+        try {
+            java.sql.Date data_in = null, data_out = null;
+            data_in = new java.sql.Date(dataEntrada.getTime());
+            data_out = new java.sql.Date(dataSaida.getTime());
+            Query q = em.createNativeQuery("select * from reserva r where r.num_quarto = '" + quarto.getNumQuarto()
+                    + "' AND '" + data_out + "' >= dt_in AND '" + data_in + "' <= dt_in OR '"+data_in+"' <= dt_out AND '"+ data_out +"' > dt_out;");
+            System.out.println("select * from reserva r where r.num_quarto = '" + quarto.getNumQuarto()
+                    + "' AND '" + data_out + "' >= dt_in AND '" + data_in + "' <= dt_in OR '"+data_in+"' <= dt_out AND '"+ data_out +"' > dt_out;");
+            if (q.getResultList().isEmpty()) {
+                disponivel = true;
+            }
+
+        } finally {
+            em.close();
+        }
+
+        return disponivel;
     }
 
     public void exclui(int id) {
@@ -360,7 +393,7 @@ public class ReservaDAO {
     public Reserva busca(int id) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from reserva r where r.id_reserva = '" + id + "'", Reserva.class);
+            Query q = em.createNativeQuery("select * from reserva r where r.id_reserva = '" + id + "';", Reserva.class);
             return (Reserva) q.getSingleResult();
         } finally {
             em.close();
@@ -370,7 +403,7 @@ public class ReservaDAO {
     public List<String> getHistorico() {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from reserva");
+            Query q = em.createNativeQuery("select * from reserva;");
             return q.getResultList();
         } finally {
             em.close();
@@ -380,7 +413,7 @@ public class ReservaDAO {
     public List<Reserva> getReservaOf(String cpf_cliente) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from reserva r where r.cpf_cliente = '" + cpf_cliente + "'", Reserva.class);
+            Query q = em.createNativeQuery("select * from reserva r where r.cpf_cliente = '" + cpf_cliente + "';", Reserva.class);
             return q.getResultList();
         } finally {
             em.close();
@@ -391,7 +424,7 @@ public class ReservaDAO {
     public List<Reserva> getReservas() {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createNativeQuery("select * from reserva", Reserva.class);
+            Query q = em.createNativeQuery("select * from reserva;", Reserva.class);
             return q.getResultList();
         } finally {
             em.close();
