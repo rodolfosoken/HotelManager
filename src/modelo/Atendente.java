@@ -6,8 +6,6 @@
 
 package modelo;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -19,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,10 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Atendente.findBySenha", query = "SELECT a FROM Atendente a WHERE a.senha = :senha"),
     @NamedQuery(name = "Atendente.findBySalario", query = "SELECT a FROM Atendente a WHERE a.salario = :salario")})
 public class Atendente implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
-    private Collection<TelefoneAtendente> telefoneAtendenteCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -62,6 +55,8 @@ public class Atendente implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "salario")
     private Double salario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
+    private Collection<TelefoneAtendente> telefoneAtendenteCollection;
     @OneToMany(mappedBy = "cpfAtend")
     private Collection<Reserva> reservaCollection;
 
@@ -77,9 +72,7 @@ public class Atendente implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        String oldCpf = this.cpf;
         this.cpf = cpf;
-        changeSupport.firePropertyChange("cpf", oldCpf, cpf);
     }
 
     public String getNome() {
@@ -87,9 +80,7 @@ public class Atendente implements Serializable {
     }
 
     public void setNome(String nome) {
-        String oldNome = this.nome;
         this.nome = nome;
-        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
     public String getRua() {
@@ -97,9 +88,7 @@ public class Atendente implements Serializable {
     }
 
     public void setRua(String rua) {
-        String oldRua = this.rua;
         this.rua = rua;
-        changeSupport.firePropertyChange("rua", oldRua, rua);
     }
 
     public Integer getCep() {
@@ -107,9 +96,7 @@ public class Atendente implements Serializable {
     }
 
     public void setCep(Integer cep) {
-        Integer oldCep = this.cep;
         this.cep = cep;
-        changeSupport.firePropertyChange("cep", oldCep, cep);
     }
 
     public String getComplementoEnd() {
@@ -117,9 +104,7 @@ public class Atendente implements Serializable {
     }
 
     public void setComplementoEnd(String complementoEnd) {
-        String oldComplementoEnd = this.complementoEnd;
         this.complementoEnd = complementoEnd;
-        changeSupport.firePropertyChange("complementoEnd", oldComplementoEnd, complementoEnd);
     }
 
     public String getSenha() {
@@ -127,9 +112,7 @@ public class Atendente implements Serializable {
     }
 
     public void setSenha(String senha) {
-        String oldSenha = this.senha;
         this.senha = senha;
-        changeSupport.firePropertyChange("senha", oldSenha, senha);
     }
 
     public Double getSalario() {
@@ -137,9 +120,16 @@ public class Atendente implements Serializable {
     }
 
     public void setSalario(Double salario) {
-        Double oldSalario = this.salario;
         this.salario = salario;
-        changeSupport.firePropertyChange("salario", oldSalario, salario);
+    }
+
+    @XmlTransient
+    public Collection<TelefoneAtendente> getTelefoneAtendenteCollection() {
+        return telefoneAtendenteCollection;
+    }
+
+    public void setTelefoneAtendenteCollection(Collection<TelefoneAtendente> telefoneAtendenteCollection) {
+        this.telefoneAtendenteCollection = telefoneAtendenteCollection;
     }
 
     @XmlTransient
@@ -174,23 +164,6 @@ public class Atendente implements Serializable {
     @Override
     public String toString() {
         return "modelo.Atendente[ cpf=" + cpf + " ]";
-    }
-
-    @XmlTransient
-    public Collection<TelefoneAtendente> getTelefoneAtendenteCollection() {
-        return telefoneAtendenteCollection;
-    }
-
-    public void setTelefoneAtendenteCollection(Collection<TelefoneAtendente> telefoneAtendenteCollection) {
-        this.telefoneAtendenteCollection = telefoneAtendenteCollection;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

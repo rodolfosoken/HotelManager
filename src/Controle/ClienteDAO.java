@@ -69,6 +69,7 @@ public class ClienteDAO {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
+             model.setTelefoneClienteCollection(new ArrayList<>());
             model.setCep(Integer.parseInt(view.getCep().getText()));
             model.setComplementoEnd(view.getComplemento().getText());
             model.setNome(view.getNome().getText());
@@ -87,6 +88,7 @@ public class ClienteDAO {
 
             cadastraCliente();
             atualizaTabela();
+            view.limpaCampos();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 
@@ -171,6 +173,7 @@ public class ClienteDAO {
             model.setEmail(view.getEmail().getText());
             model.setRua(view.getRua().getText());
             if (!view.getTelefone().getText().equals("")) {
+                model.setTelefoneClienteCollection(new ArrayList<>());
                 model.getTelefoneClienteCollection().add(new TelefoneCliente(Integer.parseInt(view.getTelefone().getText()), model));
             }
             if (!view.getCelular().getText().equals("")) {

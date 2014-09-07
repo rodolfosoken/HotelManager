@@ -67,6 +67,7 @@ public class AtendenteDAO {
 
             cadastraAtendente();
             atualizaTabela();
+            view.limpaCampos();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 

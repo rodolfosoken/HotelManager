@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
 import java.io.Serializable;
@@ -29,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TelefoneCliente.findAll", query = "SELECT t FROM TelefoneCliente t"),
     @NamedQuery(name = "TelefoneCliente.findByTelefone", query = "SELECT t FROM TelefoneCliente t WHERE t.telefone = :telefone")})
 public class TelefoneCliente implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,8 +44,8 @@ public class TelefoneCliente implements Serializable {
     public TelefoneCliente(Integer telefone) {
         this.telefone = telefone;
     }
-    
-        public TelefoneCliente(Integer telefone, Cliente cpf) {
+
+    public TelefoneCliente(Integer telefone, Cliente cpf) {
         this.telefone = telefone;
         this.cpf = cpf;
     }
@@ -90,5 +90,5 @@ public class TelefoneCliente implements Serializable {
     public String toString() {
         return "modelo.TelefoneCliente[ telefone=" + telefone + " ]";
     }
-    
+
 }

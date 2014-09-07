@@ -10,17 +10,17 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,7 +56,12 @@ public class Reserva implements Serializable {
     @Column(name = "dt_in")
     @Temporal(TemporalType.DATE)
     private Date dtIn;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idReserva")
+    @JoinTable(name = "consome_servico", joinColumns = {
+        @JoinColumn(name = "reserva_id_reserva", referencedColumnName = "id_reserva")}, inverseJoinColumns = {
+        @JoinColumn(name = "servico_id_servico", referencedColumnName = "id_servico")})
+    @ManyToMany
+    private Collection<Servico> servicoCollection;
+    @ManyToMany(mappedBy = "reservaCollection")
     private Collection<Produto> produtoCollection;
     @JoinColumn(name = "cpf_cliente", referencedColumnName = "CPF")
     @ManyToOne(optional = false)
@@ -70,8 +75,6 @@ public class Reserva implements Serializable {
     @JoinColumn(name = "id_pgto", referencedColumnName = "id_pgto")
     @ManyToOne
     private Pagamento idPgto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idReserva")
-    private Collection<Servico> servicoCollection;
 
     public Reserva() {
     }
@@ -113,6 +116,15 @@ public class Reserva implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Servico> getServicoCollection() {
+        return servicoCollection;
+    }
+
+    public void setServicoCollection(Collection<Servico> servicoCollection) {
+        this.servicoCollection = servicoCollection;
+    }
+
+    @XmlTransient
     public Collection<Produto> getProdutoCollection() {
         return produtoCollection;
     }
@@ -151,15 +163,6 @@ public class Reserva implements Serializable {
 
     public void setIdPgto(Pagamento idPgto) {
         this.idPgto = idPgto;
-    }
-
-    @XmlTransient
-    public Collection<Servico> getServicoCollection() {
-        return servicoCollection;
-    }
-
-    public void setServicoCollection(Collection<Servico> servicoCollection) {
-        this.servicoCollection = servicoCollection;
     }
 
     @Override

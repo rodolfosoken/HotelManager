@@ -7,14 +7,19 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,6 +41,10 @@ public class Quarto implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
     private Double valor;
+    @ManyToMany(mappedBy = "quartoCollection")
+    private Collection<Camareiro> camareiroCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "numQuarto")
+    private Collection<Reserva> reservaCollection;
 
     public Quarto() {
     }
@@ -58,6 +67,24 @@ public class Quarto implements Serializable {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    @XmlTransient
+    public Collection<Camareiro> getCamareiroCollection() {
+        return camareiroCollection;
+    }
+
+    public void setCamareiroCollection(Collection<Camareiro> camareiroCollection) {
+        this.camareiroCollection = camareiroCollection;
+    }
+
+    @XmlTransient
+    public Collection<Reserva> getReservaCollection() {
+        return reservaCollection;
+    }
+
+    public void setReservaCollection(Collection<Reserva> reservaCollection) {
+        this.reservaCollection = reservaCollection;
     }
 
     @Override

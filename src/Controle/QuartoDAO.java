@@ -100,6 +100,7 @@ public class QuartoDAO {
             model.setValor(Double.parseDouble(view.getValor().getText()));
             cadastraQuarto();
             atualizaTabela();
+            view.limpaCampos();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         }
 

@@ -13,6 +13,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -37,8 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Camareiro.findBySalario", query = "SELECT c FROM Camareiro c WHERE c.salario = :salario"),
     @NamedQuery(name = "Camareiro.findByTurno", query = "SELECT c FROM Camareiro c WHERE c.turno = :turno")})
 public class Camareiro implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
-    private Collection<TelefoneCamareiro> telefoneCamareiroCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -57,6 +58,13 @@ public class Camareiro implements Serializable {
     private Double salario;
     @Column(name = "turno")
     private String turno;
+    @JoinTable(name = "camareiro_limpa_quarto", joinColumns = {
+        @JoinColumn(name = "camareiro_CPF", referencedColumnName = "CPF")}, inverseJoinColumns = {
+        @JoinColumn(name = "quarto_num_quarto", referencedColumnName = "num_quarto")})
+    @ManyToMany
+    private Collection<Quarto> quartoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
+    private Collection<TelefoneCamareiro> telefoneCamareiroCollection;
 
     public Camareiro() {
     }
@@ -121,6 +129,24 @@ public class Camareiro implements Serializable {
         this.turno = turno;
     }
 
+    @XmlTransient
+    public Collection<Quarto> getQuartoCollection() {
+        return quartoCollection;
+    }
+
+    public void setQuartoCollection(Collection<Quarto> quartoCollection) {
+        this.quartoCollection = quartoCollection;
+    }
+
+    @XmlTransient
+    public Collection<TelefoneCamareiro> getTelefoneCamareiroCollection() {
+        return telefoneCamareiroCollection;
+    }
+
+    public void setTelefoneCamareiroCollection(Collection<TelefoneCamareiro> telefoneCamareiroCollection) {
+        this.telefoneCamareiroCollection = telefoneCamareiroCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -144,15 +170,6 @@ public class Camareiro implements Serializable {
     @Override
     public String toString() {
         return "modelo.Camareiro[ cpf=" + cpf + " ]";
-    }
-
-    @XmlTransient
-    public Collection<TelefoneCamareiro> getTelefoneCamareiroCollection() {
-        return telefoneCamareiroCollection;
-    }
-
-    public void setTelefoneCamareiroCollection(Collection<TelefoneCamareiro> telefoneCamareiroCollection) {
-        this.telefoneCamareiroCollection = telefoneCamareiroCollection;
     }
     
 }

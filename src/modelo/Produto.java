@@ -7,6 +7,7 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +15,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,9 +47,11 @@ public class Produto implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
     private Double valor;
-    @JoinColumn(name = "id_reserva", referencedColumnName = "id_reserva")
-    @ManyToOne(optional = false)
-    private Reserva idReserva;
+    @JoinTable(name = "consome_produto", joinColumns = {
+        @JoinColumn(name = "produto_id_prod", referencedColumnName = "id_prod")}, inverseJoinColumns = {
+        @JoinColumn(name = "reserva_id_reserva", referencedColumnName = "id_reserva")})
+    @ManyToMany
+    private Collection<Reserva> reservaCollection;
 
     public Produto() {
     }
@@ -79,12 +84,13 @@ public class Produto implements Serializable {
         this.valor = valor;
     }
 
-    public Reserva getIdReserva() {
-        return idReserva;
+    @XmlTransient
+    public Collection<Reserva> getReservaCollection() {
+        return reservaCollection;
     }
 
-    public void setIdReserva(Reserva idReserva) {
-        this.idReserva = idReserva;
+    public void setReservaCollection(Collection<Reserva> reservaCollection) {
+        this.reservaCollection = reservaCollection;
     }
 
     @Override

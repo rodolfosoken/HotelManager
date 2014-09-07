@@ -36,8 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cliente.findByComplementoEnd", query = "SELECT c FROM Cliente c WHERE c.complementoEnd = :complementoEnd"),
     @NamedQuery(name = "Cliente.findByEmail", query = "SELECT c FROM Cliente c WHERE c.email = :email")})
 public class Cliente implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
-    private Collection<TelefoneCliente> telefoneClienteCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -55,6 +53,8 @@ public class Cliente implements Serializable {
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private Collection<Acompanhante> acompanhanteCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpf")
+    private Collection<TelefoneCliente> telefoneClienteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cpfCliente")
     private Collection<Reserva> reservaCollection;
 
@@ -123,6 +123,15 @@ public class Cliente implements Serializable {
     }
 
     @XmlTransient
+    public Collection<TelefoneCliente> getTelefoneClienteCollection() {
+        return telefoneClienteCollection;
+    }
+
+    public void setTelefoneClienteCollection(Collection<TelefoneCliente> telefoneClienteCollection) {
+        this.telefoneClienteCollection = telefoneClienteCollection;
+    }
+
+    @XmlTransient
     public Collection<Reserva> getReservaCollection() {
         return reservaCollection;
     }
@@ -154,15 +163,6 @@ public class Cliente implements Serializable {
     @Override
     public String toString() {
         return "modelo.Cliente[ cpf=" + cpf + " ]";
-    }
-
-    @XmlTransient
-    public Collection<TelefoneCliente> getTelefoneClienteCollection() {
-        return telefoneClienteCollection;
-    }
-
-    public void setTelefoneClienteCollection(Collection<TelefoneCliente> telefoneClienteCollection) {
-        this.telefoneClienteCollection = telefoneClienteCollection;
     }
     
 }
