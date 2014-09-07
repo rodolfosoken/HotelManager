@@ -5,7 +5,11 @@
  */
 package visao;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,6 +32,60 @@ public class ViewCadQuarto extends javax.swing.JFrame {
         initComponents();
         criaJTable();
         this.setVisible(true);
+    }
+    
+        public void limpaCampos() {
+        for (int i = 0; i < getContentPane().getComponentCount(); i++) {
+                    //varre todos os componentes  
+
+            Component c = getContentPane().getComponent(i);
+
+            if (c instanceof JTextField) {
+                //apaga os valores  
+                JTextField field = (JTextField) c;
+                field.setText("");
+            }
+        }
+    }
+
+    public JButton getAltera() {
+        return altera;
+    }
+
+    public void setAltera(JButton altera) {
+        this.altera = altera;
+    }
+
+    public JButton getCadastra() {
+        return cadastra;
+    }
+
+    public void setCadastra(JButton cadastra) {
+        this.cadastra = cadastra;
+    }
+
+    public JButton getConcluido() {
+        return concluido;
+    }
+
+    public void setConcluido(JButton concluido) {
+        this.concluido = concluido;
+    }
+
+    public JButton getExclui() {
+        return exclui;
+    }
+
+    public void setExclui(JButton exclui) {
+        this.exclui = exclui;
+    }
+
+    public JTable getTabela() {
+        return tabela;
+    }
+
+    public void setTabela(JTable tabela) {
+        this.tabela = tabela;
     }
 
     public void addCadastraBotaoListener(ActionListener listener) {

@@ -39,6 +39,7 @@ public class AtendenteDAO {
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
+        this.view.getConcluido().setEnabled(false);
         atualizaTabela();
     }
     
@@ -103,6 +104,7 @@ public class AtendenteDAO {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            view.getConcluido().setEnabled(true);
             int linhaSelecionada = -1;
             linhaSelecionada = view.getTabela().getSelectedRow();
             if (linhaSelecionada >= 0) {
@@ -138,6 +140,7 @@ public class AtendenteDAO {
             atualiza();
            atualizaTabela();
            view.limpaCampos();
+           view.getConcluido().setEnabled(false);
         }
 
     }

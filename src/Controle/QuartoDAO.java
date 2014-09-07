@@ -39,6 +39,7 @@ public class QuartoDAO {
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
+        this.view.getConcluido().setEnabled(false);
         atualizaTabela();
     }
 
@@ -75,6 +76,7 @@ public class QuartoDAO {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            view.getConcluido().setEnabled(true);
             int linhaSelecionada = -1;
             linhaSelecionada = view.getjTable1().getSelectedRow();
             if (linhaSelecionada >= 0) {
@@ -111,6 +113,8 @@ public class QuartoDAO {
             model.setNumQuarto(Integer.parseInt(view.getNumero().getText()));
             atualiza();
             atualizaTabela();
+            view.getConcluido().setEnabled(false);
+            view.limpaCampos();
         }
 
     }

@@ -72,16 +72,18 @@ public class ViewReserva extends javax.swing.JFrame {
 
     private void criaJTable() {
         getTabela().setModel(getModelo());
+        getModelo().addColumn("ID");
         getModelo().addColumn("Nome");
         getModelo().addColumn("Quarto");
         getModelo().addColumn("Data Entrada");
         getModelo().addColumn("Data Saída");
         getModelo().addColumn("Valor");
-        getTabela().getColumnModel().getColumn(0).setPreferredWidth(200);
-        getTabela().getColumnModel().getColumn(1).setPreferredWidth(80);
-        getTabela().getColumnModel().getColumn(2).setPreferredWidth(120);
+        getTabela().getColumnModel().getColumn(0).setPreferredWidth(80);
+        getTabela().getColumnModel().getColumn(1).setPreferredWidth(200);
+        getTabela().getColumnModel().getColumn(2).setPreferredWidth(80);
         getTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
-        getTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
+        getTabela().getColumnModel().getColumn(4).setPreferredWidth(120);
+        getTabela().getColumnModel().getColumn(5).setPreferredWidth(80);
 
     }
 
@@ -262,84 +264,84 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jButton2
      */
     public javax.swing.JButton getjButton2() {
-        return jButton2;
+        return addProduto;
     }
 
     /**
      * @param jButton2 the jButton2 to set
      */
     public void setjButton2(javax.swing.JButton jButton2) {
-        this.jButton2 = jButton2;
+        this.addProduto = jButton2;
     }
 
     /**
      * @return the jButton7
      */
     public javax.swing.JButton getjButton7() {
-        return jButton7;
+        return addServico;
     }
 
     /**
      * @param jButton7 the jButton7 to set
      */
     public void setjButton7(javax.swing.JButton jButton7) {
-        this.jButton7 = jButton7;
+        this.addServico = jButton7;
     }
 
     /**
      * @return the jButton8
      */
     public javax.swing.JButton getjButton8() {
-        return jButton8;
+        return removeProduto;
     }
 
     /**
      * @param jButton8 the jButton8 to set
      */
     public void setjButton8(javax.swing.JButton jButton8) {
-        this.jButton8 = jButton8;
+        this.removeProduto = jButton8;
     }
 
     /**
      * @return the jButton9
      */
     public javax.swing.JButton getjButton9() {
-        return jButton9;
+        return removeSevico;
     }
 
     /**
      * @param jButton9 the jButton9 to set
      */
     public void setjButton9(javax.swing.JButton jButton9) {
-        this.jButton9 = jButton9;
+        this.removeSevico = jButton9;
     }
 
     /**
      * @return the jComboBox1
      */
     public javax.swing.JComboBox getjComboBox1() {
-        return jComboBox1;
+        return comboProduto;
     }
 
     /**
      * @param jComboBox1 the jComboBox1 to set
      */
     public void setjComboBox1(javax.swing.JComboBox jComboBox1) {
-        this.jComboBox1 = jComboBox1;
+        this.comboProduto = jComboBox1;
     }
 
     /**
      * @return the jComboBox2
      */
     public javax.swing.JComboBox getjComboBox2() {
-        return jComboBox2;
+        return comboServico;
     }
 
     /**
      * @param jComboBox2 the jComboBox2 to set
      */
     public void setjComboBox2(javax.swing.JComboBox jComboBox2) {
-        this.jComboBox2 = jComboBox2;
+        this.comboServico = jComboBox2;
     }
 
     /**
@@ -542,14 +544,14 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jList1
      */
     public javax.swing.JList getjList1() {
-        return jList1;
+        return listaPagamento;
     }
 
     /**
      * @param jList1 the jList1 to set
      */
     public void setjList1(javax.swing.JList jList1) {
-        this.jList1 = jList1;
+        this.listaPagamento = jList1;
     }
 
     /**
@@ -668,28 +670,28 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jTable2
      */
     public javax.swing.JTable getjTable2() {
-        return jTable2;
+        return tabelaProduto;
     }
 
     /**
      * @param jTable2 the jTable2 to set
      */
     public void setjTable2(javax.swing.JTable jTable2) {
-        this.jTable2 = jTable2;
+        this.tabelaProduto = jTable2;
     }
 
     /**
      * @return the jTable4
      */
     public javax.swing.JTable getjTable4() {
-        return jTable4;
+        return tabelaServico;
     }
 
     /**
      * @param jTable4 the jTable4 to set
      */
     public void setjTable4(javax.swing.JTable jTable4) {
-        this.jTable4 = jTable4;
+        this.tabelaServico = jTable4;
     }
 
     /**
@@ -958,16 +960,16 @@ public class ViewReserva extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
+        comboProduto = new javax.swing.JComboBox();
+        comboServico = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelaProduto = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        tabelaServico = new javax.swing.JTable();
+        addProduto = new javax.swing.JButton();
+        addServico = new javax.swing.JButton();
+        removeProduto = new javax.swing.JButton();
+        removeSevico = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -987,7 +989,7 @@ public class ViewReserva extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        listaPagamento = new javax.swing.JList();
         jLabel14 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -1176,11 +1178,11 @@ public class ViewReserva extends javax.swing.JFrame {
 
         jLabel8.setText("Serviço");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboProduto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboServico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -1199,9 +1201,9 @@ public class ViewReserva extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tabelaProduto);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaServico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -1212,15 +1214,15 @@ public class ViewReserva extends javax.swing.JFrame {
                 "Title 1"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tabelaServico);
 
-        jButton2.setText("Add");
+        addProduto.setText("Add");
 
-        jButton7.setText("Add");
+        addServico.setText("Add");
 
-        jButton8.setText("Remove");
+        removeProduto.setText("Remove");
 
-        jButton9.setText("Remove");
+        removeSevico.setText("Remove");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1230,46 +1232,46 @@ public class ViewReserva extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8))
+                        .addComponent(removeProduto))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(addProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addServico, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboServico, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton9)
+                .addComponent(removeSevico)
                 .addContainerGap())
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane2, jScrollPane4});
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox1, jComboBox2});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {comboProduto, comboServico});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jButton7))
+                    .addComponent(addServico))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addComponent(jButton9)
+                        .addComponent(removeSevico)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, Short.MAX_VALUE)
@@ -1282,15 +1284,15 @@ public class ViewReserva extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton2)))
+                        .addComponent(addProduto)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(75, 75, 75)
-                        .addComponent(jButton8)
+                        .addComponent(removeProduto)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(84, 84, 84))))
@@ -1361,12 +1363,12 @@ public class ViewReserva extends javax.swing.JFrame {
 
         jTextField10.setEditable(false);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        listaPagamento.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(jList1);
+        jScrollPane3.setViewportView(listaPagamento);
 
         jLabel14.setText("Forma de pagamento");
 
@@ -1594,6 +1596,8 @@ public class ViewReserva extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager HotelManagerPUEntityManager;
+    private javax.swing.JButton addProduto;
+    private javax.swing.JButton addServico;
     private javax.swing.JButton altera;
     private javax.swing.JComboBox atendente;
     private java.util.List<modelo.Atendente> atendenteList;
@@ -1601,18 +1605,14 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JButton cadastra;
     private javax.swing.JTextField celular;
     private javax.swing.JTextField codigo;
+    private javax.swing.JComboBox comboProduto;
+    private javax.swing.JComboBox comboServico;
     private javax.swing.JTextField comercial;
     private javax.swing.JButton concluido;
     private javax.swing.JFormattedTextField dtEntrada;
     private javax.swing.JFormattedTextField dtSaida;
     private javax.swing.JTextField endereco;
     private javax.swing.JButton exclui;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1634,7 +1634,6 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1643,19 +1642,22 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JList listaPagamento;
     private javax.swing.JTextField nome;
     private javax.swing.JButton novo;
     private javax.swing.JButton pesquisar;
     private javax.swing.JComboBox quarto;
+    private javax.swing.JButton removeProduto;
+    private javax.swing.JButton removeSevico;
     private javax.swing.JButton sair;
     private javax.swing.JTable tabela;
+    private javax.swing.JTable tabelaProduto;
+    private javax.swing.JTable tabelaServico;
     private javax.swing.JTextField telefone;
     private javax.swing.JTextField valorQuarto;
     private javax.swing.JTextField valorTotal;

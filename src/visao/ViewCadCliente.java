@@ -7,6 +7,7 @@ package visao;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -61,6 +62,10 @@ public class ViewCadCliente extends javax.swing.JFrame {
     public void addExcluiBotaoListener(ActionListener listener) {
         exclui.addActionListener(listener);
     }
+    
+    public void addAcompanhanteListener(ActionListener listener){
+        acompanhante.addActionListener(listener);
+    }
 
     private void criaJTable() {
         getTabela().setModel(getModelo());
@@ -85,6 +90,30 @@ public class ViewCadCliente extends javax.swing.JFrame {
 
     public JTextField getComercial() {
         return comercial;
+    }
+
+    public JButton getAltera() {
+        return altera;
+    }
+
+    public void setAltera(JButton altera) {
+        this.altera = altera;
+    }
+
+    public JButton getConcluido() {
+        return concluido;
+    }
+
+    public void setConcluido(JButton concluido) {
+        this.concluido = concluido;
+    }
+
+    public JButton getExclui() {
+        return exclui;
+    }
+
+    public void setExclui(JButton exclui) {
+        this.exclui = exclui;
     }
     
 

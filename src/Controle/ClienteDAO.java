@@ -13,8 +13,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.swing.JOptionPane;
+import modelo.Acompanhante;
 import modelo.Cliente;
 import modelo.TelefoneCliente;
+import visao.ViewAcompanhante;
 import visao.ViewCadCliente;
 
 /**
@@ -40,7 +42,22 @@ public class ClienteDAO {
         this.view.addAlteraBotaoListener(new actionAltera());
         this.view.addConcluidoBotaoListener(new actionConcluido());
         this.view.addExcluiBotaoListener(new actionExclui());
+        this.view.addAcompanhanteListener(new actionAcompanhante());
+        this.view.getConcluido().setEnabled(false);
         atualizaTabela();
+    }
+
+    class actionAcompanhante implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if (recuperaClienteSelecionando()) {
+                ViewAcompanhante viewAcompanhante = new ViewAcompanhante();
+                Acompanhante acompanhante = new Acompanhante();
+                AcompanhanteDAO dao = new AcompanhanteDAO(emf, acompanhante, model, viewAcompanhante);
+            }
+        }
+
     }
 
     public ClienteDAO(EntityManagerFactory emf) {
@@ -105,6 +122,7 @@ public class ClienteDAO {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            view.getConcluido().setEnabled(true);
             int linhaSelecionada = -1;
             linhaSelecionada = view.getTabela().getSelectedRow();
             if (linhaSelecionada >= 0) {
@@ -164,6 +182,7 @@ public class ClienteDAO {
             atualiza();
             atualizaTabela();
             view.limpaCampos();
+            view.getConcluido().setEnabled(false);
         }
 
     }
@@ -256,6 +275,48 @@ public class ClienteDAO {
 
         return existe;
 
+    }
+
+    public boolean recuperaClienteSelecionando() {
+        boolean selecionado = false;
+        view.getConcluido().setEnabled(true);
+        int linhaSelecionada = -1;
+        linhaSelecionada = view.getTabela().getSelectedRow();
+        if (linhaSelecionada >= 0) {
+            String cpf = (String) view.getTabela().getValueAt(linhaSelecionada, 0);
+            model = busca(cpf);
+            view.getNome().setText(model.getNome());
+            view.getCpf().setText(String.valueOf(model.getCpf()));
+            view.getRua().setText(model.getRua());
+            view.getCep().setText(String.valueOf(model.getCep()));
+            view.getComplemento().setText(model.getComplementoEnd());
+            view.getEmail().setText(model.getEmail());
+            int i = 0;
+            for (TelefoneCliente c : model.getTelefoneClienteCollection()) {
+                switch (i) {
+                    case 0:
+                        view.getTelefone().setText(c.getTelefone().toString());
+                        break;
+
+                    case 1:
+                        view.getCelular().setText(c.getTelefone().toString());
+                        break;
+
+                    case 2:
+                        view.getComercial().setText(c.getTelefone().toString());
+                        break;
+                }
+                i++;
+            }
+
+            selecionado = true;
+
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar um cliente já cadastrado.");
+            selecionado = false;
+        }
+
+        return selecionado;
     }
 
 }
