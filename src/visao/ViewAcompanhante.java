@@ -19,64 +19,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ViewAcompanhante extends javax.swing.JFrame {
 
-    public JTextField getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(JTextField cliente) {
-        this.cliente = cliente;
-    }
-
     /**
      * Creates new form ViewAcompanhante
      */
-        private DefaultTableModel modelo = new DefaultTableModel(){
-    @Override
-    public boolean isCellEditable(int row, int column) {
-        return false;
-    }
-};
+    private DefaultTableModel modelo = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
-    }
-
-    public JButton getCadastra() {
-        return cadastra;
-    }
-
-    public void setCadastra(JButton cadastra) {
-        this.cadastra = cadastra;
-    }
-
-    public JFormattedTextField getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(JFormattedTextField dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public JTextField getNome() {
-        return nome;
-    }
-
-    public void setNome(JTextField nome) {
-        this.nome = nome;
-    }
-    
     public ViewAcompanhante() {
         initComponents();
         this.setVisible(true);
         criaJTable();
     }
-     public void limpaCampos() {
+
+
+    public void limpaCampos() {
         for (int i = 0; i < getContentPane().getComponentCount(); i++) {
-                    //varre todos os componentes  
+            //varre todos os componentes  
 
             Component c = getContentPane().getComponent(i);
 
@@ -88,7 +50,22 @@ public class ViewAcompanhante extends javax.swing.JFrame {
         }
     }
 
-    public void addCadastraBotaoListener(ActionListener listener) {
+
+
+    private void criaJTable() {
+        getTabela().setModel(getModelo());
+        getModelo().addColumn("Nome");
+        getModelo().addColumn("CPF Cliente");
+        getModelo().addColumn("Nome Cliente");
+        getModelo().addColumn("Data nasc. Acomp.");
+        getTabela().getColumnModel().getColumn(0).setPreferredWidth(200);
+        getTabela().getColumnModel().getColumn(1).setPreferredWidth(80);
+        getTabela().getColumnModel().getColumn(2).setPreferredWidth(200);
+        getTabela().getColumnModel().getColumn(3).setPreferredWidth(80);
+
+    }
+    
+        public void addCadastraBotaoListener(ActionListener listener) {
         cadastra.addActionListener(listener);
     }
 
@@ -103,20 +80,6 @@ public class ViewAcompanhante extends javax.swing.JFrame {
     public void addExcluiBotaoListener(ActionListener listener) {
         exclui.addActionListener(listener);
     }
-
-    private void criaJTable() {
-        getTabela().setModel(getModelo());
-        getModelo().addColumn("Nome");
-        getModelo().addColumn("CPF Cliente");
-        getModelo().addColumn("Nome Cliente");
-        getModelo().addColumn("Data nasc. Acomp.");
-        getTabela().getColumnModel().getColumn(0).setPreferredWidth(200);
-        getTabela().getColumnModel().getColumn(1).setPreferredWidth(80);
-        getTabela().getColumnModel().getColumn(2).setPreferredWidth(200);
-        getTabela().getColumnModel().getColumn(3).setPreferredWidth(80);
-
-    }
-
 
     public JButton getAltera() {
         return altera;
@@ -150,7 +113,46 @@ public class ViewAcompanhante extends javax.swing.JFrame {
         this.exclui = exclui;
     }
     
+    
+    public JTextField getCliente() {
+        return cliente;
+    }
 
+    public void setCliente(JTextField cliente) {
+        this.cliente = cliente;
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(DefaultTableModel modelo) {
+        this.modelo = modelo;
+    }
+
+    public JButton getCadastra() {
+        return cadastra;
+    }
+
+    public void setCadastra(JButton cadastra) {
+        this.cadastra = cadastra;
+    }
+
+    public JFormattedTextField getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(JFormattedTextField dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public JTextField getNome() {
+        return nome;
+    }
+
+    public void setNome(JTextField nome) {
+        this.nome = nome;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

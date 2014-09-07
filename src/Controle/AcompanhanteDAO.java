@@ -184,11 +184,11 @@ public class AcompanhanteDAO {
 
     public void atualiza() {
         EntityManager em = getEntityManager();
-
         try {
             em.getTransaction().begin();
             em.merge(model);
             em.getTransaction().commit();
+            cliente.getAcompanhanteCollection().remove(model);
         } finally {
             em.close();
         }

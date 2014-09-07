@@ -200,7 +200,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
         // TODO add your handling code here:
-        dispose();
+       dispose();
     }//GEN-LAST:event_sairActionPerformed
 
     private void btAtendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtendenteActionPerformed
