@@ -28,6 +28,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import modelo.Atendente;
 import modelo.Cliente;
+import modelo.Produto;
 import modelo.Quarto;
 import modelo.Reserva;
 import modelo.TelefoneCliente;
@@ -50,6 +51,9 @@ public class ReservaDAO {
     private AtendenteDAO atendenteDAO = null;
     private Quarto quarto = null;
     private QuartoDAO quartoDAO = null;
+    private List<Produto> produtos = new ArrayList<Produto>();
+    private ProdutoDAO produtoDAO = null;
+    private double valorTotal = 0;
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -63,10 +67,12 @@ public class ReservaDAO {
         this.clienteDAO = new ClienteDAO(emf);
         this.atendenteDAO = new AtendenteDAO(emf);
         this.quartoDAO = new QuartoDAO(emf);
+        this.produtoDAO = new ProdutoDAO(emf);
         this.view.getConcluido().setEnabled(false);
         iniciaListeners();
         setAtendentes();
         setQuartos();
+        setProdutos();
         getDataHoje();
         atualizaTabela();
     }
@@ -91,6 +97,18 @@ public class ReservaDAO {
         this.view.addQuarto2Listener(new AcaoQuarto2());
         this.view.addDtSaidaListener(new AcaoDataFocusLost());
         this.view.addDtEntradaListener(new AcaoDataFocusLost());
+        this.view.addBtAddProdutoListener(new AcaoAddProduto());
+    }
+    
+    class AcaoAddProduto implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            produtos.add(produtoDAO.busca(view.getComboProduto().getSelectedIndex()+1));
+            atualizaTabelaProduto();
+            calculaTotal();
+        }
+        
     }
 
     class AcaoDataFocusLost implements FocusListener {
@@ -105,6 +123,16 @@ public class ReservaDAO {
             atualizaTabelaComcriterios();
         }
 
+    }
+    
+    public void atualizaTabelaProduto(){
+        view.getModeloProduto().setNumRows(0);
+        double valor = 0;
+        for (Produto p : produtos) {
+            view.getModeloProduto().addRow(new Object[]{
+            p.getDescricao(), p.getValor()
+            });
+        }
     }
 
     //Recupera informações para preencher a tabela    
@@ -137,6 +165,16 @@ public class ReservaDAO {
                 r.getValor()});
 
         }
+    }
+    
+        public void setProdutos() {
+        List<String> produtos = new ArrayList<>();
+        for (Produto p : produtoDAO.getProdutos()) {
+            produtos.add(p.getDescricao());
+        }
+        view.setProdutos(produtos);
+        view.produtoList();
+
     }
 
     public void setAtendentes() {
@@ -183,14 +221,22 @@ public class ReservaDAO {
 
     private void calculaTotal() {
         atualizaValorQuarto();
-        Double total = quarto.getValor();
-        view.getValorTotal().setText(String.valueOf(total));
+        valorTotal = 0;
+        valorTotal += quarto.getValor();
+        double valor = 0;
+        for (Produto p : produtos) {
+            valor += p.getValor();
+        }
+        view.getValorProdutos().setText(String.valueOf(valor));
+        valorTotal += valor;
+        view.getValorTotal().setText(String.valueOf(valorTotal));
     }
 
     private void atualizaValorQuarto() {
-
+        if(view.getQuarto().getSelectedIndex() != 0){
         quarto = quartoDAO.busca(Integer.parseInt(view.getQuarto().getSelectedItem().toString()));
         view.getValorQuarto().setText(quarto.getValor().toString());
+    }
     }
 
     class AcaoQuarto2 implements FocusListener {
@@ -317,6 +363,8 @@ public class ReservaDAO {
             if (linhaSelecionada >= 0) {
                 int id_reserva = (int) view.getTabela().getValueAt(linhaSelecionada, 0);
                 model = busca(id_reserva);
+                produtos = (List<Produto>) model.getProdutoCollection();
+                atualizaTabelaProduto();
                 cliente = model.getCpfCliente();
                 quarto = model.getNumQuarto();
                 view.getCodigo().setText(String.valueOf(model.getCpfCliente().getCpf()));
@@ -362,6 +410,7 @@ public class ReservaDAO {
                         model.setValor(Double.parseDouble(view.getValorTotal().getText()));
 
                         if (verificaDisponibilidade(quarto, model.getDtIn(), model.getDtOut())) {
+                            model.setProdutoCollection(produtos);
                             cadastraReserva();
                             atualizaTabela();
                             main.atualizaTabela();

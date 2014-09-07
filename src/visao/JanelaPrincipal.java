@@ -30,6 +30,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         this.setVisible(true);
         criaJTable();
     }
+    public void addProdutoListener(ActionListener listener){
+        btProduto.addActionListener(listener);
+    }
 
     public void addClienteListener(ActionListener listener) {
         btCliente.addActionListener(listener);

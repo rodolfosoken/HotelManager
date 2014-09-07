@@ -206,6 +206,11 @@ public class ViewProduto extends javax.swing.JFrame {
         concluido.setText("concluido");
 
         sair.setText("Sair");
+        sair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,6 +280,10 @@ public class ViewProduto extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairActionPerformed
+dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_sairActionPerformed
 
     /**
      * @param args the command line arguments

@@ -14,8 +14,11 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JList;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import modelo.Atendente;
 
 /**
  *
@@ -32,6 +35,22 @@ public class ViewReserva extends javax.swing.JFrame {
             return false;
         }
     };
+    
+        private DefaultTableModel modeloProduto = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    public DefaultTableModel getModeloProduto() {
+        return modeloProduto;
+    }
+
+    public void setModeloProduto(DefaultTableModel modeloProduto) {
+        this.modeloProduto = modeloProduto;
+    }
+        
     private List<String> atendentes = new ArrayList<>();
 
     public List<String> getAtendentes() {
@@ -41,6 +60,15 @@ public class ViewReserva extends javax.swing.JFrame {
     public void setAtendentes(List<String> atendentes) {
         this.atendentes = atendentes;
     }
+
+    public JTextField getValorProdutos() {
+        return valorProdutos;
+    }
+
+    public void setValorProdutos(JTextField valorProdutos) {
+        this.valorProdutos = valorProdutos;
+    }
+    
 
     public void atendentelist() {
         for (String a : atendentes) {
@@ -52,6 +80,26 @@ public class ViewReserva extends javax.swing.JFrame {
 
     public List<String> getQuartos() {
         return quartos;
+    }
+
+    private List<String> produtos = new ArrayList<>();
+
+    public List<String> getProdutos() {
+        return produtos;
+    }
+    
+        public void produtoList() {
+        for (String p : produtos) {
+            comboProduto.addItem(p);
+        }
+    }
+        
+   public void addBtAddProdutoListener(ActionListener listener){
+       addProduto.addActionListener(listener);
+   }
+
+    public void setProdutos(List<String> produtos) {
+        this.produtos = produtos;
     }
 
     public void setQuartos(List<String> quartos) {
@@ -84,7 +132,12 @@ public class ViewReserva extends javax.swing.JFrame {
         getTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(4).setPreferredWidth(120);
         getTabela().getColumnModel().getColumn(5).setPreferredWidth(80);
-
+        
+        getTabelaProduto().setModel(modeloProduto);
+        getModeloProduto().addColumn("Descrição");
+        getModeloProduto().addColumn("Valor");
+        getTabelaProduto().getColumnModel().getColumn(0).setPreferredWidth(100);
+        getTabelaProduto().getColumnModel().getColumn(0).setPreferredWidth(80);
     }
 
     public void limpaCampos() {
@@ -101,6 +154,86 @@ public class ViewReserva extends javax.swing.JFrame {
         }
     }
 
+    public JButton getAddProduto() {
+        return addProduto;
+    }
+
+    public void setAddProduto(JButton addProduto) {
+        this.addProduto = addProduto;
+    }
+
+    public JButton getAddServico() {
+        return addServico;
+    }
+
+    public void setAddServico(JButton addServico) {
+        this.addServico = addServico;
+    }
+
+    public List<Atendente> getAtendenteList() {
+        return atendenteList;
+    }
+
+    public void setAtendenteList(List<Atendente> atendenteList) {
+        this.atendenteList = atendenteList;
+    }
+
+    public JComboBox getComboProduto() {
+        return comboProduto;
+    }
+
+    public void setComboProduto(JComboBox comboProduto) {
+        this.comboProduto = comboProduto;
+    }
+
+    public JComboBox getComboServico() {
+        return comboServico;
+    }
+
+    public void setComboServico(JComboBox comboServico) {
+        this.comboServico = comboServico;
+    }
+
+    public JList getListaPagamento() {
+        return listaPagamento;
+    }
+
+    public void setListaPagamento(JList listaPagamento) {
+        this.listaPagamento = listaPagamento;
+    }
+
+    public JButton getRemoveProduto() {
+        return removeProduto;
+    }
+
+    public void setRemoveProduto(JButton removeProduto) {
+        this.removeProduto = removeProduto;
+    }
+
+    public JButton getRemoveSevico() {
+        return removeSevico;
+    }
+
+    public void setRemoveSevico(JButton removeSevico) {
+        this.removeSevico = removeSevico;
+    }
+
+    public JTable getTabelaProduto() {
+        return tabelaProduto;
+    }
+
+    public void setTabelaProduto(JTable tabelaProduto) {
+        this.tabelaProduto = tabelaProduto;
+    }
+
+    public JTable getTabelaServico() {
+        return tabelaServico;
+    }
+
+    public void setTabelaServico(JTable tabelaServico) {
+        this.tabelaServico = tabelaServico;
+    }
+
     public JTextField getValorTotal() {
         return valorTotal;
     }
@@ -108,7 +241,6 @@ public class ViewReserva extends javax.swing.JFrame {
     public void setValorTotal(JTextField valorTotal) {
         this.valorTotal = valorTotal;
     }
-    
 
     public JTextField getCelular() {
         return celular;
@@ -149,12 +281,12 @@ public class ViewReserva extends javax.swing.JFrame {
     public JButton getPesquisar() {
         return pesquisar;
     }
-    
-    public void addDtSaidaListener(FocusListener listener){
+
+    public void addDtSaidaListener(FocusListener listener) {
         dtSaida.addFocusListener(listener);
     }
-    
-    public void addDtEntradaListener(FocusListener listener){
+
+    public void addDtEntradaListener(FocusListener listener) {
         dtEntrada.addFocusListener(listener);
     }
 
@@ -796,14 +928,14 @@ public class ViewReserva extends javax.swing.JFrame {
      * @return the jTextField9
      */
     public javax.swing.JTextField getjTextField9() {
-        return jTextField9;
+        return valorProdutos;
     }
 
     /**
      * @param jTextField9 the jTextField9 to set
      */
     public void setjTextField9(javax.swing.JTextField jTextField9) {
-        this.jTextField9 = jTextField9;
+        this.valorProdutos = jTextField9;
     }
 
     /**
@@ -984,7 +1116,7 @@ public class ViewReserva extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         valorTotal = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        valorProdutos = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
@@ -1178,8 +1310,6 @@ public class ViewReserva extends javax.swing.JFrame {
 
         jLabel8.setText("Serviço");
 
-        comboProduto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         comboServico.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         tabelaProduto.setModel(new javax.swing.table.DefaultTableModel(
@@ -1350,10 +1480,10 @@ public class ViewReserva extends javax.swing.JFrame {
             }
         });
 
-        jTextField9.setEditable(false);
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        valorProdutos.setEditable(false);
+        valorProdutos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                valorProdutosActionPerformed(evt);
             }
         });
 
@@ -1393,7 +1523,7 @@ public class ViewReserva extends javax.swing.JFrame {
                             .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField9)
+                            .addComponent(valorProdutos)
                             .addComponent(jTextField10))
                         .addGap(69, 69, 69)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1425,7 +1555,7 @@ public class ViewReserva extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valorProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -1543,9 +1673,9 @@ public class ViewReserva extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_valorTotalActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void valorProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorProdutosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_valorProdutosActionPerformed
 
     private void codigoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_codigoFocusLost
         // TODO add your handling code here:
@@ -1646,7 +1776,6 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JList listaPagamento;
     private javax.swing.JTextField nome;
     private javax.swing.JButton novo;
@@ -1659,6 +1788,7 @@ public class ViewReserva extends javax.swing.JFrame {
     private javax.swing.JTable tabelaProduto;
     private javax.swing.JTable tabelaServico;
     private javax.swing.JTextField telefone;
+    private javax.swing.JTextField valorProdutos;
     private javax.swing.JTextField valorQuarto;
     private javax.swing.JTextField valorTotal;
     // End of variables declaration//GEN-END:variables

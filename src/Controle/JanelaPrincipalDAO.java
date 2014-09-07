@@ -14,12 +14,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import modelo.Atendente;
 import modelo.Cliente;
+import modelo.Produto;
 import modelo.Quarto;
 import modelo.Reserva;
 import visao.JanelaPrincipal;
 import visao.ViewCadAtendente;
 import visao.ViewCadCliente;
 import visao.ViewCadQuarto;
+import visao.ViewProduto;
 import visao.ViewReserva;
 
 /**
@@ -42,6 +44,7 @@ public class JanelaPrincipalDAO {
         this.view.addAtendenteListener(new actionBtAtendente());
         this.view.addQuartoListener(new actionBtQuarto());
         this.view.addReservaListener(new actionBtReserva());
+        this.view.addProdutoListener(new actionBtProduto());
         atualizaTabela();
     }
 
@@ -80,6 +83,15 @@ public class JanelaPrincipalDAO {
         }
 
     }
+    
+    class actionBtProduto implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            produtoWindow();
+        }
+        
+    }
 
     //Recupera informações para preencher a tabela    
     public void atualizaTabela() {
@@ -99,6 +111,12 @@ public class JanelaPrincipalDAO {
         } finally {
             em.close();
         }
+    }
+    
+    public void produtoWindow(){
+        Produto model = new Produto();
+        ViewProduto view = new ViewProduto();
+        ProdutoDAO dao = new ProdutoDAO(emf, model, view);
     }
 
     public void reservaWindow() {
