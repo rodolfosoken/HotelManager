@@ -339,9 +339,10 @@ public class ReservaDAO {
             int linhaSelecionada = -1;
             linhaSelecionada = view.getTabela().getSelectedRow();
             if (linhaSelecionada >= 0) {
-                // String num = (String)view.getTabela().getValueAt(linhaSelecionada, 0);
-                //exclui(num);
+                int num = (int)view.getTabela().getValueAt(linhaSelecionada, 0);
+                exclui(num);
                 atualizaTabela();
+                main.atualizaTabela();
             } else {
                 JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
             }
